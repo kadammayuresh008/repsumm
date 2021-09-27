@@ -1,6 +1,7 @@
 import React from "react";
 import Heading from "../HelperComponents/Heading";
 import UploadBox from "../HelperComponents/UploadBox";
+import { Button } from "react-bootstrap";
 
 class UploadDoc extends React.Component {
     render() {

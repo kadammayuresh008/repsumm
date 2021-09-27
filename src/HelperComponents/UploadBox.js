@@ -1,5 +1,5 @@
 import React from "react";
-import { Form } from "react-bootstrap";
+import { Form,Button} from "react-bootstrap";
 import UploadDocImage from "../Images/UploadDocImage1.png";
 import WebNavbar from "../HelperComponents/WebNavbar";
 
@@ -50,6 +50,7 @@ render(){
             </div>
             <br></br>
             <p style={textStyle}>or drop pdf here</p>
+            <Button variant="success">Summarize</Button>
         </div>
     );
 }
