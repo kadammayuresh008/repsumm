@@ -4,6 +4,7 @@ import WebNavbar from './HelperComponents/WebNavbar';
 import UploadDoc from './components/UploadDoc';
 import Login from './components/Login';
 import SignUp from './components/SignUp';
+import HomePage from './components/HomePage';
 
 function App() {
   const PageStyle = {
@@ -22,9 +23,10 @@ function App() {
   return (
     <div>
       <WebNavbar></WebNavbar>
-      <UploadDoc></UploadDoc>
+      {/* <HomePage></HomePage> */}
+      {/* <UploadDoc></UploadDoc> */}
       {/* <Login></Login> */}
-      {/* <SignUp></SignUp> */}
+      <SignUp></SignUp>
     </div>
   );
 }
