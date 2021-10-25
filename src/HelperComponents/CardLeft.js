@@ -2,8 +2,8 @@ import React from "react";
 import { Card } from "react-bootstrap";
 import Image1 from "../Images/Image1.jpg";
 
-class CardLeft extends React.Component {
-    render() {
+
+const CardLeft = () =>{
         const ImageCard = {
             border: "1px solid",
             padding: "10px",
@@ -44,7 +44,6 @@ class CardLeft extends React.Component {
             </Card >
         );
     }
-}
 
 
 export default CardLeft;

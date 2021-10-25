@@ -2,8 +2,8 @@ import React from "react";
 import { Card } from "react-bootstrap";
 import Image2 from "../Images/Image2.jpg";
 
-class CardRight extends React.Component{
-    render(){
+
+const CardRight =()=>{
         const cardImage={
             height:"200px",
             weight:"500px",
@@ -36,7 +36,5 @@ class CardRight extends React.Component{
             </Card>
         );
     }
-}
-
 
 export default CardRight;

@@ -3,8 +3,8 @@ import Heading from "../HelperComponents/Heading";
 import UploadBox from "../HelperComponents/UploadBox";
 import { Button } from "react-bootstrap";
 
-class UploadDoc extends React.Component {
-    render() {
+
+const UploadDoc = ()=>{
         return (
             <div>
                 <center>
@@ -14,7 +14,5 @@ class UploadDoc extends React.Component {
                 </center>
             </div>
         );
-    }
 }
-
 export default UploadDoc;

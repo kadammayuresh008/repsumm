@@ -23,10 +23,10 @@ function App() {
   return (
     <div>
       <WebNavbar></WebNavbar>
-      {/* <HomePage></HomePage> */}
+      <HomePage></HomePage>
       {/* <UploadDoc></UploadDoc> */}
       {/* <Login></Login> */}
-      <SignUp></SignUp>
+      {/* <SignUp></SignUp> */}
     </div>
   );
 }
