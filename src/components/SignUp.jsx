@@ -1,15 +1,10 @@
 import React from "react";
 import { Form, Button } from "react-bootstrap";
 import Heading from "../HelperComponents/Heading";
+import "../components/maincomponents.scss";
 
 
 const SignUp = ()=>{
-    const inputStyle = {
-        borderRadius: "10px",
-        }
-    const InputLabelStyle={
-                color:"purple"
-        }
     return (
         <div className="row">
             <div className="col-sm-4"></div>
@@ -20,18 +15,18 @@ const SignUp = ()=>{
                 <br></br>
                 <Form>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
-                        <Form.Label style={InputLabelStyle}>Name</Form.Label>
-                        <Form.Control type="text" placeholder="Name" style={inputStyle} />
+                        <Form.Label className="InputLabelStyle">Name</Form.Label>
+                        <Form.Control type="text" placeholder="Name" className="inputStyle"/>
                     </Form.Group>
                     <Form.Group className="mb-3" controlId="formBasicEmail">
-                        <Form.Label style={InputLabelStyle}>Your Email</Form.Label>
+                        <Form.Label className="InputLabelStyle">Your Email</Form.Label>
 
-                        <Form.Control type="email" placeholder="name@gmail.com" style={inputStyle} />
+                        <Form.Control type="email" placeholder="name@gmail.com" className="inputStyle"/>
                     </Form.Group>
 
                     <Form.Group className="mb-3" controlId="formBasicPassword">
-                        <Form.Label style={InputLabelStyle}>Password</Form.Label>
-                        <Form.Control type="password" placeholder="Aleast 8 character" style={inputStyle} />
+                        <Form.Label className="InputLabelStyle">Password</Form.Label>
+                        <Form.Control type="password" placeholder="Aleast 8 character" className="inputStyle"/>
                     </Form.Group>
                     <Form.Group className="mb-1" controlId="formBasicCheckbox">
                         <Form.Check type="checkbox" label="By creating an account you
@@ -45,7 +40,7 @@ const SignUp = ()=>{
                     <center>
                         <br></br>
                         <Form.Label>Already have an account?
-                            <a href="#" style={InputLabelStyle}> Login</a>
+                            <a href="#" className="InputLabelStyle"> Login</a>
                             </Form.Label>
                         <br></br>
                     </center>

@@ -1,18 +1,20 @@
 import React from "react";
 import { Button} from "react-bootstrap";
-import { render } from "react-dom";
-import HomeImage from "../Images/HomeImage.jpg";
 import CardLeft from "../HelperComponents/CardLeft";
 import CardRight from "../HelperComponents/CardRight";
+import "../components/maincomponents.scss";
 
 
 const HomePage = ()=>{
-    const HomeImageStyle = {
-        height: "450px",
+
+    const HomeImageStyle={
+        height: "300px",
         backgroundColor: "aqua",
         position:"relative",
+        textAlign:"center",
     }
-    const HomePageButton = {
+
+    const HomePageButton={
         paddingLeft: "20px",
         paddingRight: "20px",
         paddingTop:"10px",
@@ -23,7 +25,7 @@ const HomePage = ()=>{
         bottom: "70px",
         opacity:1.0,
     }
-
+    
     const HomeImageText={
         position: "absolute",
         left: "50px",
@@ -32,12 +34,13 @@ const HomePage = ()=>{
         opacity:1.0,
         textShadow:"3px 3px black",
     }
-    return (
 
+
+    return (
         <center>
-        <div style={HomeImageStyle}>
-            <h1 style={HomeImageText}>Research Paper Summarizer </h1>
-            <Button variant="success" style={HomePageButton}>Get Started</Button>
+        <div className ="HomeImageStyle" style={HomeImageStyle}>
+            <h1 className="HomeImageText" style={HomeImageText}>Research Paper Summarizer </h1>
+            <Button variant="success" className="HomePageButton" style={HomePageButton}>Get Started</Button>
         </div>
         <div className="col-sm-10">
         <CardLeft></CardLeft>
@@ -48,6 +51,7 @@ const HomePage = ()=>{
         </center>
     );
 }
+
 
 
 export default HomePage;

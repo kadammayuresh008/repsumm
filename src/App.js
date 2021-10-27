@@ -1,32 +1,30 @@
 import './App.css';
-import React from "react";
+import {Route, Switch } from 'react-router-dom';
+import React,{Component} from "react";
 import WebNavbar from './HelperComponents/WebNavbar';
 import UploadDoc from './components/UploadDoc';
 import Login from './components/Login';
 import SignUp from './components/SignUp';
 import HomePage from './components/HomePage';
+import Error from './components/Error';
+import About from './components/About';
+
+{/* <WebNavbar></WebNavbar>*/}
+
+
 
 function App() {
-  const PageStyle = {
-    // marginTop: "25px",
-    // marginLeft: "30%",
-    // marginRight: "30%",
-    backgroundColor: "aqua",
-    // paddingLeft:"30px",
-    // paddingRight:"30px",
-    // borderRadius:"10px",
-    // paddingTop: "30px",
-    // paddingBottom: "10px",
-    // borderRadius: "10px",
-}
-
   return (
     <div>
-      <WebNavbar></WebNavbar>
-      <HomePage></HomePage>
-      {/* <UploadDoc></UploadDoc> */}
-      {/* <Login></Login> */}
-      {/* <SignUp></SignUp> */}
+    <WebNavbar></WebNavbar>
+    <Switch>
+      <Route exact path="/" component={HomePage}/>
+      <Route exact path="/About" component={About}/>
+      <Route path="/Login" component={Login}/>
+      <Route path="/Signup" component={SignUp}/>
+      <Route path="/UploadDoc" component={UploadDoc}/>
+      <Route component={Error} />
+    </Switch>
     </div>
   );
 }

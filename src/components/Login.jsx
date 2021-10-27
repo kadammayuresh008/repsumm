@@ -1,16 +1,10 @@
 import React from "react";
 import { Form, Button } from "react-bootstrap";
 import Heading from "../HelperComponents/Heading";
+import "../components/maincomponents.scss";
 
 
 const Login=()=>{
-    const inputStyle = {
-        borderRadius: "10px",
-    }
-
-    const InputLabelStyle={
-        color:"purple"
-    }
     return (
         <div className="row">
             <div className="col-sm-4"></div>
@@ -21,14 +15,14 @@ const Login=()=>{
                 <br></br>
                 <Form>
                     <Form.Group className="mb-3" controlId="formBasicEmail">
-                        <Form.Label style={InputLabelStyle}>Your Email</Form.Label>
+                        <Form.Label className="InputLabelStyle">Your Email</Form.Label>
 
-                        <Form.Control type="email" placeholder="name@gmail.com" style={inputStyle} />
+                        <Form.Control type="email" placeholder="name@gmail.com" className="inputStyle"/>
                     </Form.Group>
 
                     <Form.Group className="mb-3" controlId="formBasicPassword">
-                        <Form.Label style={InputLabelStyle}>Password</Form.Label>
-                        <Form.Control type="password" placeholder="Aleast 8 character" style={inputStyle} />
+                        <Form.Label id="InputLabelStyle">Password</Form.Label>
+                        <Form.Control type="password" placeholder="Aleast 8 character" className="inputStyle"/>
                     </Form.Group>
                     <Form.Group className="mb-1" controlId="formBasicCheckbox">
                         <Form.Check type="checkbox" label="Keep me logged in." />
@@ -41,10 +35,10 @@ const Login=()=>{
                     <center>
                         <br></br>
                         <Form.Label>Don't have an account?
-                            <a href="#" style={InputLabelStyle}> SignUp</a>
+                            <a href="#" className="InputLabelStyle"> SignUp</a>
                             </Form.Label>
                         <br></br>
-                        <Form.Label style={InputLabelStyle}>Forgot Password</Form.Label>
+                        <Form.Label className="InputLabelStyle">Forgot Password</Form.Label>
                     </center>
                 </Form>
             </div>
