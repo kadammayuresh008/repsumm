@@ -1,6 +1,6 @@
 import React from "react";
 import Heading from "../HelperComponents/Heading";
-import ImageUploader from "./Test";
+import ImageUploader from "../HelperComponents/UploadBox";
 
 
 const UploadDoc = () => {
