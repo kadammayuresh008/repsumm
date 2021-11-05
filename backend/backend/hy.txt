@@ -1,0 +1,158 @@
+\subsection{INTRODUCTION}
+
+\subsubsection{Product Overview}
+
+Preparing a research paper on a certain topic requires searching and analyzing multiple research papers related to the research topic. This process is not only time-consuming but also becomes hectic sometimes. Even after studying various papers, generating a summary and concluding results from it becomes difficult. Hence, this difficulty in reading multiple articles and understanding the actual content of the articles, made us realize the acute need for an application where a summarizing the articles can be possible. This thought inspired us to design this web application to solve this problem. The web application designed will summarize all the subsections of the research paper and thus providing researchers a comparative analysis helping in better understanding.
+
+
+
+\subsection{SPECIFIC REQUIREMENTS}
+
+\subsubsection{External Interface Requirements}
+
+\subsubsubsection{User Interfaces}
+The design of the interface should be in such a way that everyone can easily use and interact with the app. The user interface should be user-friendly and easy to understand. 
+\begin{itemize}
+        \item SCREEN FORMATS: The screen displayed first will give users a short details about platform and if they want to use services then they can login/register and use the services.
+        \item WINDOW FORMATS:When the user chooses any option,then the related information will be displayed  in a new window which ensures multiple windows to be visible on the screen and the users can switch between them.
+        \item DATA FORMAT: The data provided by the users will be in the form of
+        Portable Document Format(PDF) and Document File (DOC).
+        \item END MESSAGES: When there are some exceptions raising error like uploading invalid document format, then error messages will be displayed prompting the users to re-upload the document(s).
+\end{itemize}
+
+\subsubsubsection{Hardware Interfaces}
+
+\begin{itemize}
+    \item Source of input: Keyboard, Mouse\\
+    To accept research papers from user 
+    \item Destination of Output: Screen\\
+    Display the summarized research paper E.g.: subSection-wise summary
+\end{itemize}
+
+
+\subsubsubsection{Software Interfaces}
+            \textbf{Supported Browsers}
+
+    \begin{itemize}
+        \item Chrome $\geq$ 87.0.4280.141 
+        \item Firefox version $\geq$ 84
+        \item Safari version $\geq$ 11.1.2
+        \item Internet Explorer $\geq$ 11.0
+    \end{itemize}
+
+\subsubsubsection{Communications Protocols}
+
+Nil    
+
+\subsubsection{Software Product Features}
+
+% functional
+\subsubsubsection{Functional requirements }
+\begin{enumerate}
+
+    \item Register and Login:
+    \begin{itemize}
+
+        \item The user needs to register himself in order to upload the documents and generate the summary. 
+        \item The user needs to sign in once he/she has successfully registered.
+        \item This allows the user to upload the documents for generating the summary and keep a track of all the history including uploaded research papers and their summarized document generated.
+
+    \end{itemize}
+
+    \item Upload the document:
+    \begin{itemize}
+        \item Once the users are logged in in the web application, they will be provided with an option of uploading research paper(s) where they will be able to upload the research paper(s) in the prescribed format.
+        \item The prescribed formats are Portable Document Format(PDF) and Document File (DOC). 
+        \item The users can either select a single or multiple research papers for upload for generating a summarized document.
+    \end{itemize}
+   
+   \item Scan the document and pre-process the data:
+   \begin{itemize}
+       \item Once the user has selected the upload document option, the document(s) will be scanned and checked whether the document(s) is/are in prescribed format. 
+       \item If the document(s) is/are scanned properly and no errors are found, the documents will be pre-processed and the data will be converted into blocks of sentences. 
+       \item These pre-processed data will be used for generating the summary.
+   \end{itemize}
+   
+   \item Extract the structure of the document:
+   \begin{itemize}
+       \item Once the data has been extracted and pre-processed from the raw document(s) uploaded, it will be classified into different subsections and a proper structure of the document(s) will be identified. 
+       \item This structured document(s) will be used for generating the summary based on the applied algorithm.
+   \end{itemize}
+   
+   \item Generate summary:
+   \begin{itemize}
+        \item The user will be provided with an option of selecting either subsection-wise summary or overall summary.
+       \item The user can select either of the options at a time, and if all the previous steps have been completed successfully, the process of summary generation will be initiated.
+       \item The generated summary will be presented in the desired format according to the option selected by the user.
+       \item In case of subsection-wise summary, the summarized document will be containing the summaries of the different subsections in a comparative structure.
+       \item In case of overall summary, the document(s) will be presented in a short and concise manner and not alter the context of the actual research papers.
+   \end{itemize}
+   
+   
+\end{enumerate}
+
+\subsubsubsection{Non-Functional requirements }
+\begin{enumerate}
+
+    \item Usability
+    \begin{itemize}
+        
+        \item The system must be easy to use by the users such that they do not need to read an extensive number of manuals to use this website. 
+        \item The system must be easily accessible by the users. 
+        \item The system should load quickly at the user’s end. 
+        \item The system must be intuitive and simple in the way it displays all relevant data and relationships. 
+        \item The features of the system must be easily navigable by the users with buttons that are easy to understand.
+
+    \end{itemize}
+    
+    \item Performance
+    \begin{itemize}
+        \item The system must not lag, because the users using it don’t have down-time to wait for it to complete an action.
+        \item All the functions of the system must be available to the user every time the system is turned on. 
+        \item If for any reason some operation cannot be performed or has failed to execute, then the user must be alerted with appropriate messages.
+        \item Accuracy: The context of the summary generated by the web application should not be altered or be modified with respect to the actual context of the research paper(s) and the author’s point of view.
+    \end{itemize}
+\end{enumerate}
+
+\subsubsection{Software System Attributes}
+
+\subsubsubsection{Reliability}
+    \begin{itemize}
+        \item The user's input files should be valid and of the expected type and also it should be within the required range of size.
+        % \item 
+        % \item Normal termination of the program.
+    \end{itemize}
+
+\subsubsubsection{Availability}
+
+    \begin{itemize}
+        \item The system should be available whenever the users demand it.
+    \end{itemize}
+ 
+\subsubsubsection{Security}
+
+    \begin{itemize}
+        \item Passwords must be strong and should be stored in hash format which ensures confidentiality.
+        \item Access should only be provided to the authorized persons with correct credentials like email id and password.
+        \item Data should not be tampered by other users.
+        \item Checks should be performed at regular internals in a timely manner to ensure data integrity.
+        \item Sensitive data should not be visible to public.
+        \item No cookies should contain any sensitive information.
+    \end{itemize}
+
+\subsubsubsection{Maintainability}
+
+    \begin{itemize}
+        \item The software will be developed by implementing the concept of modularity which in turn reduces the complexity involved in maintaining it.
+        \item  The administrator should have a sound technical knowledge about maintaining the software and further enhancements will be undertaken by the developer
+    \end{itemize}
+
+\subsubsubsection{Portability}
+
+\begin{itemize}
+        \item The application is portable which ensures its adaptability for use on different browser with different operating systems and standards.
+    \end{itemize}
+
+\subsubsection{Database Requirements}
+
+This application requires the use of an SQL database that stores user's details as well as details of summary generated. An entity should be used to denote all the users who are registered to the platform by username and email address. Also, another entity should be used to denote details of summary generated by original document(s) name, original document(s) size, final document size, and timestamp.
