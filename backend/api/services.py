@@ -6,11 +6,12 @@ from pdfminer.pdfpage import PDFPage, PDFTextExtractionNotAllowed
 from pdfminer.pdfparser import PDFParser
 import os
 from django.conf import settings
+from .config import *
 
 def extract_text(path_of_file):
 	txt = ""
-	path = "/home/sourabh/Downloads/college/FYP/newRps/RPS/backend" + path_of_file
-	with open(path, 'r') as f:
+	path = MEDIA_FILE_LOCAL_URL + path_of_file
+	with open(path, 'rb') as f:
 		parser = PDFParser(f)
 		doc = PDFDocument(parser)
 		pages = list(PDFPage.create_pages(doc))
