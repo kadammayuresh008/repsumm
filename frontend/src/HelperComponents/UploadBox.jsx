@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import config from '../config.json';
 
 class ImageUploader extends React.Component {
     constructor() {
@@ -107,7 +108,8 @@ class ImageUploader extends React.Component {
             form_data.append('rp_file', this.refs.image.files[0], this.refs.image.files[0].name);
             form_data.append('title', this.refs.image.files[0].name);
             // form_data.append('content', this.state.content);
-            let url = 'http://localhost:8000/api/rps/';
+            // let url = 'http://localhost:8000/api/rps/';
+            let url = config.UPLOAD_DOC_URL;
             axios.post(url, form_data, {
             headers: {
                 'content-type': 'multipart/form-data'
