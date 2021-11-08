@@ -18,12 +18,7 @@ class RPView(APIView):
         rps_serializer = RPSerializer(data=request.data)
         if rps_serializer.is_valid():
             rps_serializer.save()
-            print("********************")
-            print(rps_serializer.data)
-            print("********************")
-
             text = extract_text(rps_serializer.data['rp_file'])
-            print(text[0:40])
             return Response(rps_serializer.data, status=status.HTTP_201_CREATED)
         else:
             print('error', rps_serializer.errors)

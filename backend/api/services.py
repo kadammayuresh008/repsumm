@@ -9,11 +9,8 @@ from django.conf import settings
 
 def extract_text(path_of_file):
 	txt = ""
-	path = "http://127.0.0.1:8000" + path_of_file
-	print(path)
-	print("********************")
-	with open(path, 'rb') as f:
-		print("hi")
+	path = "/home/sourabh/Downloads/college/FYP/newRps/RPS/backend" + path_of_file
+	with open(path, 'r') as f:
 		parser = PDFParser(f)
 		doc = PDFDocument(parser)
 		pages = list(PDFPage.create_pages(doc))
