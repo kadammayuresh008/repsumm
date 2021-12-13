@@ -7,8 +7,8 @@ const UploadDoc = () => {
     return (
         <div>
             <center>
+                <br />
                 <Heading name="Upload DOC/PDF"></Heading>
-                <br></br>
                 <ImageUploader></ImageUploader>
             </center>
         </div>

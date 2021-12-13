@@ -115,7 +115,14 @@
                 font-size: 100px;
                 color: black;
              }
+             i.fa.fa-spinner.fa-spin {
+               width: 100px;
+               height: 100px;
+               font-size: 100px;
+               color: black;
+            }
           }
+          
           .upload-button, .cancel-upload-button {
              margin: 0 10px;
              position: relative;
@@ -152,3 +159,10 @@
        }
     }
  }
+
+
+ .sectionwiseTextStyle {
+   justify-content: center;
+   align-items: center;
+   padding: 20px 100px;
+}

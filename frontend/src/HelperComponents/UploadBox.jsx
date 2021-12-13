@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import config from '../config.json';
+import { Accordion } from "react-bootstrap";
 
 class ImageUploader extends React.Component {
     constructor() {
@@ -15,7 +16,9 @@ class ImageUploader extends React.Component {
         this.state = {
             file: null,
             dragOver: false,
-            errorNoficication: null
+            errorNoficication: null,
+            dataToShow: null,
+            isProcessing: false,
         };
     }
 
@@ -102,6 +105,9 @@ class ImageUploader extends React.Component {
     handleUploadImage(e) {
         e.preventDefault();
         if (this.refs.image.files[0]) {
+            this.setState({
+                isProcessing: true
+            });
             console.log("Uploading Image " + this.refs.image.files[0].name + "");
 
             let form_data = new FormData();
@@ -110,22 +116,40 @@ class ImageUploader extends React.Component {
             // form_data.append('content', this.state.content);
             // let url = 'http://localhost:8000/api/rps/';
             let url = config.UPLOAD_DOC_URL;
-            axios.post(url, form_data, {
-            headers: {
-                'content-type': 'multipart/form-data'
-            }
-            })
+            axios.post(
+                url, 
+                form_data, {
+                    headers: {
+                        'content-type': 'multipart/form-data'
+                    }
+                }
+            )
                 .then(res => {
-                    console.log("\n---------\n");
-                    console.log(res.data);
-                    console.log(res.status);
-                    console.log("\n---------\n");
+                    this.setState({
+                        isProcessing: false
+                    });
+                    this.setState({ 
+                        dataToShow: res.data ? res.data : [] 
+                    });
+                    console.log(this.dataToShow)
                 })
-                .catch(err => console.log(err))
-
+                .catch(err => {
+                    this.setState({
+                        isProcessing: false,
+                        errorNotification: "Not able to process"
+                    });
+                    setTimeout(() => {
+                        this.setState({
+                            errorNotification: null
+                        });
+                    }, 3000);
+                    console.log(err);
+                })
+                
 
         }
     }
+
     handleCancelUpload(e) {
         e.preventDefault();
         this.setState({
@@ -168,32 +192,75 @@ class ImageUploader extends React.Component {
             </div>
             : null;
 
+        
+        // Show Extracted Text if file is uploaded properly
+        let extractedText = this.state.dataToShow
+            ? <div>
+                <h4>
+                    Sections from Research Paper
+                </h4>
+            {
+                Object.keys(this.state.dataToShow).map((key, i) => (
+                    <Accordion flush>
+                        <Accordion.Item eventKey={i}>
+                            <Accordion.Header>{key.toUpperCase()}</Accordion.Header>
+                            <Accordion.Body>
+                                <p>
+                                {this.state.dataToShow[key]}
+                                </p>
+                            </Accordion.Body>
+                        </Accordion.Item>
+                    </Accordion>
+                ))
+            }
+      
+          </div>
+            : null;
+        
         return (
-            <div className="image-uploader-wrapper">
-                <div className={dragOverClass}>
-                    <div className="icon-text-box">
-                        <div className="upload-icon">
-                            <i className="fa fa-upload" aria-hidden="true" />
+            <div>
+                <div className="image-uploader-wrapper">
+                    
+                    <div className={dragOverClass}>
+                        <div className="icon-text-box">
+                            <div className="upload-icon">
+                                {
+                                this.state.isProcessing == true 
+                                    ? <i className="fa fa-spinner fa-spin" aria-hidden="true"></i>
+                                    : <i className="fa fa-upload" aria-hidden="true" />
+                                }                                
+                            </div>
+                            {
+                            this.state.isProcessing == true 
+                                ? null
+                                : <div className="upload-text">
+                                        {uploadText}
+                                    </div>
+                            } 
+                            {errorNotification}
                         </div>
-                        <div className="upload-text">
-                            {uploadText}
+                        <div>
+                            {this.state.isProcessing == true 
+                                ? null
+                                : <input
+                                type="file"
+                                ref="image"
+                                id="upload-image-input"
+                                className="upload-image-input"
+                                // accept="image/*"
+                                onDrop={this.handleDrop}
+                                onDragEnter={this.handleDragEnter}
+                                onDragOver={this.handleDragOver}
+                                onDragLeave={this.handleDragLeave}
+                                onChange={this.handleAddImage}
+                            />
+                            }
+                            
                         </div>
-                        {errorNotification}
                     </div>
-                    <div>
-                        <input
-                            type="file"
-                            ref="image"
-                            id="upload-image-input"
-                            className="upload-image-input"
-                            // accept="image/*"
-                            onDrop={this.handleDrop}
-                            onDragEnter={this.handleDragEnter}
-                            onDragOver={this.handleDragOver}
-                            onDragLeave={this.handleDragLeave}
-                            onChange={this.handleAddImage}
-                        />
-                    </div>
+                </div>
+                <div className="sectionwiseTextStyle" >
+                    {extractedText}
                 </div>
             </div>
         );

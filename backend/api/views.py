@@ -1,10 +1,12 @@
 from .serializers import RPSerializer
 from .models import RP
-from .services import extract_text
+from .services import extract_text, extract_sectionwise_text
 from rest_framework.views import APIView
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.response import Response
 from rest_framework import status
+# from django.http import JsonResponse
+
 
 class RPView(APIView):
     parser_classes = (MultiPartParser, FormParser)
@@ -18,8 +20,10 @@ class RPView(APIView):
         rps_serializer = RPSerializer(data=request.data)
         if rps_serializer.is_valid():
             rps_serializer.save()
-            text = extract_text(rps_serializer.data['rp_file'])
-            return Response(rps_serializer.data, status=status.HTTP_201_CREATED)
+            # text = extract_text(rps_serializer.data['rp_file'])
+            paper_content = extract_sectionwise_text(rps_serializer.data['rp_file'])
+
+            return Response(paper_content, status=status.HTTP_201_CREATED)
         else:
             print('error', rps_serializer.errors)
             return Response(rps_serializer.errors, status=status.HTTP_400_BAD_REQUEST)

@@ -24,12 +24,12 @@ class WebNavbar extends React.Component {
           <Nav.Link href="/UploadDoc">Summarize</Nav.Link>
             <Nav.Link href="/About">About</Nav.Link>
           </Nav>
-          <Nav className="mr-auto">
+          {/* <Nav className="mr-auto">
           <Nav.Link href="/Login">Login</Nav.Link>
           </Nav>
           <Nav className="mr-auto">
           <Nav.Link href="/Signup">SignUp</Nav.Link>
-          </Nav>
+          </Nav> */}
         </Navbar.Collapse>
       </Container>
     </Navbar>
