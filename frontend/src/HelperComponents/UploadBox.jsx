@@ -106,7 +106,8 @@ class ImageUploader extends React.Component {
         e.preventDefault();
         if (this.refs.image.files[0]) {
             this.setState({
-                isProcessing: true
+                isProcessing: true,
+                dataToShow: null,
             });
             console.log("Uploading Image " + this.refs.image.files[0].name + "");
 
@@ -125,6 +126,7 @@ class ImageUploader extends React.Component {
                 }
             )
                 .then(res => {
+
                     this.setState({
                         isProcessing: false
                     });
@@ -153,7 +155,8 @@ class ImageUploader extends React.Component {
     handleCancelUpload(e) {
         e.preventDefault();
         this.setState({
-            file: null
+            file: null,
+            dataToShow: null
         });
     }
 
