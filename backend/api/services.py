@@ -149,6 +149,6 @@ def extract_sectionwise_text(path_of_file):
 	for i in range(1,len(main_headings)):
 		paper_content[main_headings[i-1]] = text2.split(main_headings[i])[0]
 		text2 = text2.split(main_headings[i])[1]
-	paper_content['CONCLUSION'] = text2.split('REFERENCES')[0] or text2.split('REFERENCE')[0]
+	paper_content['CONCLUSION'] = text2.split('[1]')[0]
 
 	return paper_content
