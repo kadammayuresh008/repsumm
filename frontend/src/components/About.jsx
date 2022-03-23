@@ -6,7 +6,7 @@ const About = () => {
 
     const AboutImageStyle = {
         height: "300px",
-        backgroundColor: "aqua",
+        backgroundColor: "#848BB3",
         position: "relative",
         textAlign: "center",
     }
@@ -43,7 +43,7 @@ const About = () => {
                     <div className="col-sm-3">
                         <ReactRoundedImage
                             image={DefaultImage}
-                            roundedColor="aqua"
+                            roundedColor="#848BB3"
                             roundedSize="5"
                         ></ReactRoundedImage>
                         <h5>Mayuresh Kadam</h5>
@@ -51,7 +51,7 @@ const About = () => {
                     <div className="col-sm-3">
                         <ReactRoundedImage
                             image={DefaultImage}
-                            roundedColor="aqua"
+                            roundedColor="#848BB3"
                             roundedSize="5"
                         ></ReactRoundedImage>
                         <h5>Mahek Baru</h5>
@@ -59,7 +59,7 @@ const About = () => {
                     <div className="col-sm-3">
                         <ReactRoundedImage
                             image={DefaultImage}
-                            roundedColor="aqua"
+                            roundedColor="#848BB3"
                             roundedSize="5"
                         ></ReactRoundedImage>
                         <h5>Jainam Mehta</h5>
@@ -67,7 +67,7 @@ const About = () => {
                     <div className="col-sm-3">
                         <ReactRoundedImage
                             image={DefaultImage}
-                            roundedColor="aqua"
+                            roundedColor="#848BB3"
                             roundedSize="5"
                         ></ReactRoundedImage>
                         <h5>Sourabh Bujawade</h5>

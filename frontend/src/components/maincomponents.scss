@@ -1,6 +1,6 @@
 .home-image-style {
     height: "1000px";
-    background-color: "aqua";
+    background-color: #848BB3;
     position:"relative";
 }
 
@@ -73,7 +73,7 @@
        flex-direction: column;
        justify-content: center;
        align-items: center;
-       background-color: aqua;
+       background-color:#848BB3;
        height: 400px;
        width: 100%;
        padding: 20px;
@@ -81,7 +81,7 @@
           .icon-text-box {
              background-color: white;
              cursor: pointer;
-             color:aqua;
+             color:#848BB3;
              text-shadow: 0px 1px 0 #999;
              .upload-icon {
                 transform: translateY(-20px);

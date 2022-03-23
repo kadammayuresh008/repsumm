@@ -8,6 +8,7 @@ import SignUp from './components/SignUp';
 import HomePage from './components/HomePage';
 import Error from './components/Error';
 import About from './components/About';
+import Result from './components/Result';
 
 {/* <WebNavbar></WebNavbar>*/}
 
@@ -23,6 +24,7 @@ function App() {
       <Route path="/Login" component={Login}/>
       <Route path="/Signup" component={SignUp}/>
       <Route path="/UploadDoc" component={UploadDoc}/>
+      <Route path="/Result" component={Result}/>
       <Route component={Error} />
     </Switch>
     </div>

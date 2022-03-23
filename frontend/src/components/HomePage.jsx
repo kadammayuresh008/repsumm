@@ -9,7 +9,7 @@ const HomePage = ()=>{
 
     const HomeImageStyle={
         height: "300px",
-        backgroundColor: "aqua",
+        backgroundColor: "#848BB3",
         position:"relative",
         textAlign:"center",
     }
