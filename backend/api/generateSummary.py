@@ -44,7 +44,7 @@ from django.core.files import File
 
 def get_section_summary(path_of_file):
   path = MEDIA_FILE_LOCAL_URL + path_of_file
-  # print(path)
+  print(path)
 
   """## Structure and Content Extraction
 
@@ -239,7 +239,7 @@ def get_section_summary(path_of_file):
 
   import os
   import shutil
-  os.mkdir('media\processImages')
+  os.mkdir('media/processImages')
 
   # pip install PyMuPDF
 
@@ -251,10 +251,10 @@ def get_section_summary(path_of_file):
 
   from pdf2image import convert_from_path
   papername=path_of_file.split("rps/")[1]
-  pages = convert_from_path(MEDIA_FILE_LOCAL_URL+"\media\\rps\\"+papername,fmt='jpeg',poppler_path=r'C:\poppler-0.68.0\bin')
+  pages = convert_from_path(MEDIA_FILE_LOCAL_URL+"/media/rps/"+papername,fmt='jpeg')
   i=0
   for page in pages:
-    page.save(MEDIA_PROCESS_IMAGE_FILE_LOCAL_URL+'\out2'+str(i)+'.jpg')
+    page.save(MEDIA_PROCESS_IMAGE_FILE_LOCAL_URL+'/out2'+str(i)+'.jpg')
     i=i+1
   
 
