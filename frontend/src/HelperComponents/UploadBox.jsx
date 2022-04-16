@@ -1,7 +1,9 @@
 import React from 'react';
 import axios from 'axios';
 import config from '../config.json';
-import { Accordion } from "react-bootstrap";
+import { Accordion, Card } from "react-bootstrap";
+
+var listOfFile = [];
 
 class ImageUploader extends React.Component {
     constructor() {
@@ -19,9 +21,10 @@ class ImageUploader extends React.Component {
             errorNoficication: null,
             dataToShow: null,
             isProcessing: false,
+            uploadingPaperNameList: [],
         };
     }
-
+    
     /**
        Drag and Drop Event Handlers
     **/
@@ -94,70 +97,66 @@ class ImageUploader extends React.Component {
         this.setState({
             file
         });
-
+        let x = this.state.uploadingPaperNameList;
+        x.push(this.refs.image.files[0].name);
         
+        this.setState({
+            uploadingPaperNameList: x
+        });
 
+        // listOfFile
+        let form_data = new FormData();
+        form_data.append('rp_file', this.refs.image.files[0], this.refs.image.files[0].name);
+        form_data.append('title', this.refs.image.files[0].name);
+        listOfFile.push(form_data);
+        console.log(listOfFile);
     }
+
+
 
     /**
        Handle Upload after Upload Button Clicked
     **/
     handleUploadImage(e) {
         e.preventDefault();
-        if (this.refs.image.files[0]) {
-            this.setState({
-                isProcessing: true,
-                dataToShow: null,
-            });
-            console.log("Uploading Image " + this.refs.image.files[0].name + "");
+        
+        let url = config.UPLOAD_DOC_URL;
+        axios.post(
+            url, 
+            listOfFile
+        )
+            .then(res => {
 
-            let form_data = new FormData();
-            form_data.append('rp_file', this.refs.image.files[0], this.refs.image.files[0].name);
-            form_data.append('title', this.refs.image.files[0].name);
-            // form_data.append('content', this.state.content);
-            // let url = 'http://localhost:8000/api/rps/';
-            let url = config.UPLOAD_DOC_URL;
-            axios.post(
-                url, 
-                form_data, {
-                    headers: {
-                        'content-type': 'multipart/form-data'
-                    }
-                }
-            )
-                .then(res => {
-
+                this.setState({
+                    isProcessing: false
+                });
+                this.setState({ 
+                    dataToShow: res.data ? res.data : [] 
+                });
+                console.log(this.dataToShow)
+            })
+            .catch(err => {
+                this.setState({
+                    isProcessing: false,
+                    errorNotification: "Not able to process"
+                });
+                setTimeout(() => {
                     this.setState({
-                        isProcessing: false
+                        errorNotification: null
                     });
-                    this.setState({ 
-                        dataToShow: res.data ? res.data : [] 
-                    });
-                    console.log(this.dataToShow)
-                })
-                .catch(err => {
-                    this.setState({
-                        isProcessing: false,
-                        errorNotification: "Not able to process"
-                    });
-                    setTimeout(() => {
-                        this.setState({
-                            errorNotification: null
-                        });
-                    }, 3000);
-                    console.log(err);
-                })
-                
-
-        }
+                }, 3000);
+                console.log(err);
+            })
     }
 
     handleCancelUpload(e) {
         e.preventDefault();
         this.setState({
             file: null,
-            dataToShow: null
+            dataToShow: null,
+            uploadingPaperNameList: []
         });
+        listOfFile = [];
     }
 
 
@@ -170,7 +169,8 @@ class ImageUploader extends React.Component {
         // If file is set, change upload box text to file name
         let uploadText = this.state.file
             ? <div>
-                <h4>{this.state.file.name}</h4>
+                
+                <h4>Drag & drop files here, or click to select files</h4>
                 <button
                     className="cancel-upload-button btn btn-danger"
                     onClick={this.handleCancelUpload}
@@ -185,7 +185,7 @@ class ImageUploader extends React.Component {
                 </button>
             </div>
             : <div>
-                <h4>Choose File to Upload</h4>
+                <h4>Drag & drop files here, or click to select files</h4>
             </div>;
 
         // Show Error message if file type is not an image
@@ -215,6 +215,22 @@ class ImageUploader extends React.Component {
                         </Accordion.Item>
                     </Accordion>
                 ))
+            }
+      
+          </div>
+            : null;
+
+
+        // Show uploading paper list
+        let uploadingPaperListCards = this.state.uploadingPaperNameList
+            ? <div>
+            {
+                Object.keys(this.state.uploadingPaperNameList).map((i) => (
+                    <Card border="info" style={{ width: '18rem', display: 'inline-flex'}} >
+                        <Card.Header>{this.state.uploadingPaperNameList[i]}</Card.Header>
+                    </Card>
+                ))
+                
             }
       
           </div>
@@ -251,6 +267,7 @@ class ImageUploader extends React.Component {
                                 id="upload-image-input"
                                 className="upload-image-input"
                                 // accept="image/*"
+                                multiple
                                 onDrop={this.handleDrop}
                                 onDragEnter={this.handleDragEnter}
                                 onDragOver={this.handleDragOver}
@@ -258,13 +275,21 @@ class ImageUploader extends React.Component {
                                 onChange={this.handleAddImage}
                             />
                             }
+         
+
                             
                         </div>
                     </div>
                 </div>
+
+                <div className="uploadingPaperListStyle" >
+                    {uploadingPaperListCards}
+                </div>
+
                 <div className="sectionwiseTextStyle" >
                     {extractedText}
                 </div>
+
             </div>
         );
     }

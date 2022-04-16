@@ -20,6 +20,7 @@ const Result = ()=>{
       maxCellWidth={500}
       tableContent={<TableContent />}
     />
+
     </div>
   );
 }
