@@ -10,12 +10,19 @@ const createHeaders = (headers) => {
 
 const Table = ({ headers, minCellWidth, maxCellWidth,tableContent }) => {
   const [tableHeight, setTableHeight] = useState("auto");
-  // const [tableWidth,settableWidth] = useState("auto");
   const [activeIndex, setActiveIndex] = useState(null);
   const tableElement = useRef(null);
   const columns = createHeaders(headers);
 
   useEffect(() => {
+    //intial style for columns on basis of number of columns
+    var styleForColumns = "";
+    for (let i = 0; i < headers.length; i++) {
+      styleForColumns += "minmax(150px, 1fr)";
+      styleForColumns += "\n";
+    }
+    tableElement.current.style.gridTemplateColumns = `${styleForColumns}`;
+    
     setTableHeight(tableElement.current.offsetHeight);
   }, [tableHeight]);
 
