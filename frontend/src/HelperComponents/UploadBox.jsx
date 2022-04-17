@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import config from '../config.json';
-import { Accordion, Card } from "react-bootstrap";
+import { Accordion, Card, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 var listOfFile = [];
@@ -120,7 +120,9 @@ class ImageUploader extends React.Component {
     **/
     handleUploadImage(e) {
         e.preventDefault();
-        
+        this.setState({
+            isProcessing: true
+        });
         let url = config.UPLOAD_DOC_URL;
         // axios.post(
         //     url, 
@@ -155,7 +157,6 @@ class ImageUploader extends React.Component {
                 listOfFile[i]
             )
                 .then(res => {
-    
                     this.setState({
                         isProcessing: false
                     });
@@ -188,37 +189,6 @@ class ImageUploader extends React.Component {
         });
         listOfFile = [];
     }
-
-    getSum(e) {
-        e.preventDefault();
-        let url = config.UPLOAD_DOC_URL;
-        axios.get(
-            url
-        )
-            .then(res => {
-
-                // this.setState({
-                //     isProcessing: false
-                // });
-                // this.setState({ 
-                //     dataToShow: res.data ? res.data : [] 
-                // });
-                console.log(res.data)
-            })
-            .catch(err => {
-                this.setState({
-                    isProcessing: false,
-                    errorNotification: "Not able to process"
-                });
-                setTimeout(() => {
-                    this.setState({
-                        errorNotification: null
-                    });
-                }, 3000);
-                console.log(err);
-            });
-    }
-
 
     render() {
         // Match drag over css to hover css
@@ -347,16 +317,29 @@ class ImageUploader extends React.Component {
                 </div>
 
                 <Link
+                    style={{textDecoration: "none"}}
+                    
                     to={{
                         pathname: "/Result",
                     }}
                     > 
-                    <button
-                    className="upload-button btn btn-success"
-                    // onClick={this.getSum}
-                    >get sum</button> 
+                    {/* <button className="upload-button btn btn-success">
+                        get sum
+                    </button> */}
+                    <div className="summaryButton">
+                        <p>Get Summary</p>
+                    </div> 
+
                 </Link>
                 
+                {/* <div className="d-grid gap-2">
+                    <Button variant="primary" size="lg">
+                        Block level button
+                    </Button>
+                    <Button variant="secondary" size="lg">
+                        Block level button
+                    </Button>
+                </div> */}
 
                 <div className="sectionwiseTextStyle" >
                     {extractedText}

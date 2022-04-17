@@ -119,3 +119,11 @@ h1{
   justify-content: center;
 }
 
+.summaryButton {
+  width: 200px;
+  background-color: #20bf55;
+  background-image: linear-gradient(315deg, #20bf55 0%, #01baef 74%);
+  padding: 4px 5px 1px 5px;
+  border-radius: 7px;
+  color: #fff;
+}

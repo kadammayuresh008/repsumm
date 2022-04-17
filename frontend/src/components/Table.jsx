@@ -104,7 +104,7 @@ const Table = ({ headers, minCellWidth, maxCellWidth,tableContent }) => {
           {tableContent}
         </table>
       </div>
-      <button onClick={resetTableCells}>Reset</button>
+      {/* <button onClick={resetTableCells}>Reset</button> */}
     </div>
   );
 };
