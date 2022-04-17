@@ -239,7 +239,7 @@ def get_section_summary(path_of_file):
 
   import os
   import shutil
-  os.mkdir('media/processImages')
+  os.mkdir('media/processImages' + str(len(final_headings)))
 
   # pip install PyMuPDF
 
@@ -254,7 +254,7 @@ def get_section_summary(path_of_file):
   pages = convert_from_path(MEDIA_FILE_LOCAL_URL+"/media/rps/"+papername,fmt='jpeg')
   i=0
   for page in pages:
-    page.save(MEDIA_PROCESS_IMAGE_FILE_LOCAL_URL+'/out2'+str(i)+'.jpg')
+    page.save(MEDIA_PROCESS_IMAGE_FILE_LOCAL_URL + '/media/processImages' + str(len(final_headings)) +'/out2'+str(i)+'.jpg')
     i=i+1
   
 
@@ -275,7 +275,7 @@ def get_section_summary(path_of_file):
   from matplotlib import pyplot as plt
   i=0
   for page in pages:
-      img = cv2.imread(MEDIA_PROCESS_IMAGE_FILE_LOCAL_URL+'/out2'+str(i)+'.jpg')
+      img = cv2.imread(MEDIA_PROCESS_IMAGE_FILE_LOCAL_URL + '/media/processImages' + str(len(final_headings))+'/out2'+str(i)+'.jpg')
       shape = img.shape
       # for springer
       if isIEEEHeadings==False:
@@ -283,7 +283,7 @@ def get_section_summary(path_of_file):
       else:
         # for IEEE
         crop_img = img[int(shape[0]*0.05):int(shape[0]*0.92), 0:shape[1]]
-      cv2.imwrite(MEDIA_PROCESS_IMAGE_FILE_LOCAL_URL+'/out2'+str(i)+'.jpg', crop_img)
+      cv2.imwrite(MEDIA_PROCESS_IMAGE_FILE_LOCAL_URL+'/media/processImages' + str(len(final_headings))+'/out2'+str(i)+'.jpg', crop_img)
       i=i+1
 
   import numpy as np
@@ -292,11 +292,11 @@ def get_section_summary(path_of_file):
 
   text=[""]
   for i in range(len(pages)):
-    filename = MEDIA_PROCESS_IMAGE_FILE_LOCAL_URL+'/out2'+str(i)+'.jpg'
+    filename = MEDIA_PROCESS_IMAGE_FILE_LOCAL_URL+'/media/processImages' + str(len(final_headings))+'/out2'+str(i)+'.jpg'
     img1 = np.array(Image.open(filename))
     df=threading.Thread(target= multi(img1,text), name='t'+str(i))
     task1.append(df)
-  shutil.rmtree(MEDIA_PROCESS_IMAGE_FILE_LOCAL_URL)
+  shutil.rmtree(MEDIA_PROCESS_IMAGE_FILE_LOCAL_URL+'/media/processImages' + str(len(final_headings)))
 
   for i in task1:
     i.start()
@@ -354,9 +354,9 @@ def get_section_summary(path_of_file):
 
   """## Summary Generation"""
 
-  for i in final_headings:
-    print("\n\n",i)
-    print(paper_content[i])
+  # for i in final_headings:
+  #   print("\n\n",i)
+  #   print(paper_content[i])
 
 
 

@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import config from '../config.json';
 import { Accordion, Card } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 var listOfFile = [];
 
@@ -121,19 +122,88 @@ class ImageUploader extends React.Component {
         e.preventDefault();
         
         let url = config.UPLOAD_DOC_URL;
-        axios.post(
-            url, 
-            listOfFile
+        // axios.post(
+        //     url, 
+        //     listOfFile
+        // )
+        //     .then(res => {
+
+        //         this.setState({
+        //             isProcessing: false
+        //         });
+        //         this.setState({ 
+        //             dataToShow: res.data ? res.data : [] 
+        //         });
+        //         console.log(this.dataToShow)
+        //     })
+        //     .catch(err => {
+        //         this.setState({
+        //             isProcessing: false,
+        //             errorNotification: "Not able to process"
+        //         });
+        //         setTimeout(() => {
+        //             this.setState({
+        //                 errorNotification: null
+        //             });
+        //         }, 3000);
+        //         console.log(err);
+        //     });
+        
+        for(let i=0; i<listOfFile.length; i++) {
+            axios.post(
+                url, 
+                listOfFile[i]
+            )
+                .then(res => {
+    
+                    this.setState({
+                        isProcessing: false
+                    });
+                    this.setState({ 
+                        dataToShow: res.data ? res.data : [] 
+                    });
+                    console.log(this.dataToShow)
+                })
+                .catch(err => {
+                    this.setState({
+                        isProcessing: false,
+                        errorNotification: "Not able to process"
+                    });
+                    setTimeout(() => {
+                        this.setState({
+                            errorNotification: null
+                        });
+                    }, 3000);
+                    console.log(err);
+                });
+        }
+    }
+
+    handleCancelUpload(e) {
+        e.preventDefault();
+        this.setState({
+            file: null,
+            dataToShow: null,
+            uploadingPaperNameList: []
+        });
+        listOfFile = [];
+    }
+
+    getSum(e) {
+        e.preventDefault();
+        let url = config.UPLOAD_DOC_URL;
+        axios.get(
+            url
         )
             .then(res => {
 
-                this.setState({
-                    isProcessing: false
-                });
-                this.setState({ 
-                    dataToShow: res.data ? res.data : [] 
-                });
-                console.log(this.dataToShow)
+                // this.setState({
+                //     isProcessing: false
+                // });
+                // this.setState({ 
+                //     dataToShow: res.data ? res.data : [] 
+                // });
+                console.log(res.data)
             })
             .catch(err => {
                 this.setState({
@@ -146,17 +216,7 @@ class ImageUploader extends React.Component {
                     });
                 }, 3000);
                 console.log(err);
-            })
-    }
-
-    handleCancelUpload(e) {
-        e.preventDefault();
-        this.setState({
-            file: null,
-            dataToShow: null,
-            uploadingPaperNameList: []
-        });
-        listOfFile = [];
+            });
     }
 
 
@@ -285,6 +345,18 @@ class ImageUploader extends React.Component {
                 <div className="uploadingPaperListStyle" >
                     {uploadingPaperListCards}
                 </div>
+
+                <Link
+                    to={{
+                        pathname: "/Result",
+                    }}
+                    > 
+                    <button
+                    className="upload-button btn btn-success"
+                    // onClick={this.getSum}
+                    >get sum</button> 
+                </Link>
+                
 
                 <div className="sectionwiseTextStyle" >
                     {extractedText}
