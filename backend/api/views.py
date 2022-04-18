@@ -30,6 +30,7 @@ summ = {
 
 }
 ind = 0
+import json 
 
 class RPView(APIView):
     parser_classes = (MultiPartParser, FormParser)
@@ -38,6 +39,7 @@ class RPView(APIView):
         # rps = RP.objects.all()
         # serializer = RPSerializer(rps, many=True)
         # return Response(serializer.data)
+        # json_object = json.dumps(summ) 
         return Response(summ)
 
 
