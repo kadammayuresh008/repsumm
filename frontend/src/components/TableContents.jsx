@@ -17,7 +17,7 @@ const TableRow = ({data, paperHeaders}) => {
               <Accordion.Item eventKey="0">
                   <Accordion.Header>{paperHeaders[index]}</Accordion.Header>
                   <Accordion.Body>
-                    {data[paperHeaders[index]]}
+                    {data[paperHeaders[index]] == "" ? "NA" : data[paperHeaders[index]]}
                   </Accordion.Body>
               </Accordion.Item>
             </Accordion>
@@ -28,12 +28,12 @@ const TableRow = ({data, paperHeaders}) => {
   );
 }
 
-const TableContent = ({data, commonHeaderList}) => {
+const TableContent = ({data, commonSubHeadings}) => {
   return (
     <tbody>
       {
         Object.keys(data).map((key, i) => (
-          <TableRow data={data[key]} paperHeaders={commonHeaderList[i]}></TableRow>          
+          <TableRow data={data[key]} paperHeaders={commonSubHeadings}></TableRow>          
         ))
       }
     </tbody>

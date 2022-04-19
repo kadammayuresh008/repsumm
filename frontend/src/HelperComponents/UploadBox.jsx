@@ -200,7 +200,7 @@ class ImageUploader extends React.Component {
         let uploadText = this.state.file
             ? <div>
                 
-                <h4>Drag & drop files here, or click to select files</h4>
+                <h4 className='titleText'>Drag & drop files here, or click to select files</h4>
                 <button
                     className="cancel-upload-button btn btn-danger"
                     onClick={this.handleCancelUpload}
@@ -211,11 +211,11 @@ class ImageUploader extends React.Component {
                     className="upload-button btn btn-success"
                     onClick={this.handleUploadImage}
                 >
-                    Upload
+                    Upload to Summarize
                 </button>
             </div>
             : <div>
-                <h4>Drag & drop files here, or click to select files</h4>
+                <h4 className='titleText'>Drag & drop files here, or click to select files</h4>
             </div>;
 
         // Show Error message if file type is not an image
@@ -316,6 +316,7 @@ class ImageUploader extends React.Component {
                     {uploadingPaperListCards}
                 </div>
 
+                <br></br>
                 <Link
                     style={{textDecoration: "none"}}
                     
@@ -323,28 +324,12 @@ class ImageUploader extends React.Component {
                         pathname: "/Result",
                     }}
                     > 
-                    {/* <button className="upload-button btn btn-success">
-                        get sum
-                    </button> */}
+
                     <div className="summaryButton">
                         <p>Get Summary</p>
                     </div> 
 
                 </Link>
-                
-                {/* <div className="d-grid gap-2">
-                    <Button variant="primary" size="lg">
-                        Block level button
-                    </Button>
-                    <Button variant="secondary" size="lg">
-                        Block level button
-                    </Button>
-                </div> */}
-
-                <div className="sectionwiseTextStyle" >
-                    {extractedText}
-                </div>
-
             </div>
         );
     }

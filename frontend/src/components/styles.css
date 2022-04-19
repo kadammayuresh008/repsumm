@@ -13,14 +13,14 @@ button {
   color: #fff;
   font-size: 24px;
   font-weight: 700;
-  border-radius: 30px;
+  border-radius: 7px;
   padding: 10px 20px;
   cursor: pointer;
 }
 
 .table-wrapper {
   margin-bottom: 25px;
-  border-radius: 6px;
+  border-radius: 7px;
   background: #fff;
   overflow: hidden; /* Clip any scrollbars that appear */
 }
@@ -93,9 +93,29 @@ table tr td {
   border-color: #517ea5;
 }
 
-h4{
+.titleTextStyle {
+  background-image: linear-gradient(315deg, #90d5ec 74%, #fc575e 0%);
+  padding: 8px 12px 8px 12px;
+  border-radius: 7px;
+  font-size: 20px;
+}
+
+.horizontalSeperationStyle {
+  width: 100%;
+  background-image: linear-gradient(315deg, #90d5ec 74%, #fc575e 0%);
+  height: 2px;
+}
+
+.allSummarySectionStyle {
+  width: 90%;
+}
+
+
+.titleText {
   padding: 10px;
   background-color: #848BB3;
+  color: #000;
+  border-radius: 7px;
 }
 
 
@@ -112,18 +132,12 @@ h4{
   text-align: center;
 }
 
-.sectionwiseTextStyle {
-  flex: 1;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-}
 
 .summaryButton {
   width: 200px;
   background-color: #20bf55;
   background-image: linear-gradient(315deg, #20bf55 0%, #01baef 74%);
-  padding: 4px 5px 1px 5px;
+  padding: 8px 1px 1px 1px;
   border-radius: 7px;
   color: #fff;
 }

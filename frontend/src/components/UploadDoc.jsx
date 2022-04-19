@@ -9,7 +9,7 @@ const UploadDoc = () => {
         <div>
             <center>
                 <br />
-                <Heading name="Upload IEEE Research Paper PDF"></Heading>
+                <Heading name="Upload IEEE/Springer Research Paper PDF"></Heading>
                 <ImageUploader></ImageUploader>
 
                 {/* <UploadFiles /> */}

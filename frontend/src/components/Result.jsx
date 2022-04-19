@@ -4,6 +4,8 @@ import Table from './Table';
 import config from '../config.json';
 import axios from 'axios';
 import { Accordion, Card, Button } from "react-bootstrap";
+import SectionWiseSumm from './SectionWiseSumm';
+
 
 const Result = ()=>{
   const [summaryList, setSummaryList] = useState(null);
@@ -19,7 +21,6 @@ const Result = ()=>{
       .catch(e => {
         console.error(e);
       })
-      // getAllTableHeaders();
   }, []);
 
   useEffect(() => {
@@ -44,49 +45,26 @@ const Result = ()=>{
     setSubHeadingList(tmpSubHeadingList);
   }
 
-
-  //we have to get matching subheadings from all rps subheadings
-  const getTableHeaders = () => {
-    let tmpTableHeaderList = [];
-    
-  }
-
-
   const tableHeaders = [
-    "Title",
-    "Abstract",
-    "Introduction",
-    "Methodology",
-    "Result",
-    "Conclusion"
+    "TITLE",
+    "INTRODUCTION",
+    "LITERATURE SURVEY",
+    "METHODOLOGY",
+    "EXPERIMENTS & RESULTS",
+    "CONCLUSION"
   ];
 
 
-  let x = summaryList
-    ? <div>
-        <h4>
-            Sections 
-        </h4>
+  let allSummary = summaryList
+    ? <div className="allSummarySectionStyle">
+        <span className="titleTextStyle">
+          All Summaries
+        </span>
+      <br/>
     {
         Object.keys(summaryList).map((key, i) => (
           <div> 
-            <p>{key}</p>
-            <p>
-              {
-                Object.keys(summaryList[key]).map((keyy, ii) => (
-                  <div> 
-                    <p>{keyy}</p>
-                    <p>
-                    {summaryList[key][keyy]}
-                    </p>
-                  </div>
-                  
-                ))
-            }
-            </p>
-            <p>
-              {summaryList[key]["abstract"]}
-            </p>
+            <SectionWiseSumm index={i} summaryOfPaper={summaryList[key]} />
           </div>
           
         ))
@@ -98,28 +76,24 @@ const Result = ()=>{
 
   return (
     <div align="center">
-    <h4>Your Uploaded Paper</h4>
-    <p>
-      {/* {x} */}
-    </p>
-
-    {/*
-      here commonHeaderList is list which contains list of headers for each common Sections
-      like for 
-      paper1 = [heading, introduction, related work, approach, conclusion and future work]
-      paper2 = [heading, introduction, literature survey, Methodology, conclusion]
-      and list of is commonHeaderList
-    */}
-
+      <br/>
+    <span className="titleTextStyle">Your Comparative Summaries</span>
     {subHeadingList
-    ?
-    <Table
-      headers={subHeadingList[0]}
-      minCellWidth={150}
-      maxCellWidth={500}
-      tableContent={<TableContent data = {summaryList} commonHeaderList = {subHeadingList}/>}
-    />
-  : null}
+      ?
+      <div>
+        <Table
+        headers={tableHeaders}
+        minCellWidth={150}
+        maxCellWidth={500}
+        tableContent={<TableContent data = {summaryList} commonSubHeadings = {tableHeaders}/>}
+        />
+        <br/>
+        {allSummary}
+      </div>
+
+      : null
+    }
+    <br></br>
     </div>
   );
 }
@@ -129,12 +103,24 @@ export default Result;
 
 
 /*
-introduction: [introduction, ...n-1 times] 
-literature survey:  [literature survey, literature review, related work]
-Methodology: [Methodology, approach]
-conclusion: [conclusion, conclusion and future work]
 
 
-
+let mapForSubHeading = {
+      "introduction" : [
+        "introduction",
+      ],
+      "Literature Survey" : [
+        "literature survey", "literature review", "related work", "related works", "related study", "background", "state of the art",
+      ],
+      "methodology" : [
+        "methodology", "approach", "structure and discussion", "method", "proposed model", "proposed system", "algorithm", "materials and methods", "the proposed method", "proposed method", "experimental setup"
+      ],
+      "Conclusion": [
+        "conclusion", "conclusion and future work", "conclusions", "conclusion and future scope", "conclusion and future works", "conclusions and limitations", "discussion and conclusions", "empirical study", "conclusion and further work"
+      ],
+      "Result": [
+        "result", "experiment",  "experiments", "experimental results", "result and discussion", "discussion", "results and discussion", "experiment and result analysis", "result and  evalution", "experimental verification", "comparison and discussion", "limitations and discussion", "experiments and results", "implement and experimental results", "experimental evalution", "experimental verification", "experimental results and  evalution"
+      ],
+    };
 
 */

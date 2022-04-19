@@ -41,10 +41,14 @@ from django.core.files import File
 
 # paperName = "paper_17.pdf"
 # path = "/content/" + paperName
+cntOfPaper = 0
 
 def get_section_summary(path_of_file):
+  global cntOfPaper
+  paperInd = cntOfPaper
+  cntOfPaper += 1
   path = MEDIA_FILE_LOCAL_URL + path_of_file
-  print(path)
+  # print(path)
 
   """## Structure and Content Extraction
 
@@ -239,7 +243,7 @@ def get_section_summary(path_of_file):
 
   import os
   import shutil
-  os.mkdir('media/processImages' + str(len(final_headings)))
+  os.mkdir('media/processImages' + str(paperInd))
 
   # pip install PyMuPDF
 
@@ -254,7 +258,7 @@ def get_section_summary(path_of_file):
   pages = convert_from_path(MEDIA_FILE_LOCAL_URL+"/media/rps/"+papername,fmt='jpeg')
   i=0
   for page in pages:
-    page.save(MEDIA_PROCESS_IMAGE_FILE_LOCAL_URL + '/media/processImages' + str(len(final_headings)) +'/out2'+str(i)+'.jpg')
+    page.save(MEDIA_PROCESS_IMAGE_FILE_LOCAL_URL + '/media/processImages' + str(paperInd) +'/out2'+str(i)+'.jpg')
     i=i+1
   
 
@@ -275,7 +279,7 @@ def get_section_summary(path_of_file):
   from matplotlib import pyplot as plt
   i=0
   for page in pages:
-      img = cv2.imread(MEDIA_PROCESS_IMAGE_FILE_LOCAL_URL + '/media/processImages' + str(len(final_headings))+'/out2'+str(i)+'.jpg')
+      img = cv2.imread(MEDIA_PROCESS_IMAGE_FILE_LOCAL_URL + '/media/processImages' + str(paperInd)+'/out2'+str(i)+'.jpg')
       shape = img.shape
       # for springer
       if isIEEEHeadings==False:
@@ -283,7 +287,7 @@ def get_section_summary(path_of_file):
       else:
         # for IEEE
         crop_img = img[int(shape[0]*0.05):int(shape[0]*0.92), 0:shape[1]]
-      cv2.imwrite(MEDIA_PROCESS_IMAGE_FILE_LOCAL_URL+'/media/processImages' + str(len(final_headings))+'/out2'+str(i)+'.jpg', crop_img)
+      cv2.imwrite(MEDIA_PROCESS_IMAGE_FILE_LOCAL_URL+'/media/processImages' + str(paperInd)+'/out2'+str(i)+'.jpg', crop_img)
       i=i+1
 
   import numpy as np
@@ -292,11 +296,11 @@ def get_section_summary(path_of_file):
 
   text=[""]
   for i in range(len(pages)):
-    filename = MEDIA_PROCESS_IMAGE_FILE_LOCAL_URL+'/media/processImages' + str(len(final_headings))+'/out2'+str(i)+'.jpg'
+    filename = MEDIA_PROCESS_IMAGE_FILE_LOCAL_URL+'/media/processImages' + str(paperInd)+'/out2'+str(i)+'.jpg'
     img1 = np.array(Image.open(filename))
     df=threading.Thread(target= multi(img1,text), name='t'+str(i))
     task1.append(df)
-  shutil.rmtree(MEDIA_PROCESS_IMAGE_FILE_LOCAL_URL+'/media/processImages' + str(len(final_headings)))
+  shutil.rmtree(MEDIA_PROCESS_IMAGE_FILE_LOCAL_URL+'/media/processImages' + str(paperInd))
 
   for i in task1:
     i.start()
@@ -312,7 +316,11 @@ def get_section_summary(path_of_file):
   text2 = text[0]
 
   # print(text2)
-
+  for i in range(0,len(final_headings)):
+    data=final_headings[i].strip()
+    final_headings[i]=data
+  # for i in range(len(final_headings)):
+  #   print(final_headings[i],text2.index(final_headings[i]))
  
 
   text2 = text2.split(final_headings[0])[1]
@@ -361,12 +369,20 @@ def get_section_summary(path_of_file):
 
 
   """### Pre-processing"""
-
+  import nltk
+  #download only once
+  # nltk.download('words')
+  # nltk.download('wordnet')
+  # nltk.download('vader_lexicon')
+  # nltk.download('omw-1.4')
   import re
   from string import punctuation
-  import nltk
   from nltk.sentiment.vader import SentimentIntensityAnalyzer
-  nltk.download('vader_lexicon')
+  from nltk.stem import WordNetLemmatizer,PorterStemmer
+  from nltk.corpus import words
+  
+  lemmatizer = WordNetLemmatizer()
+  stemmer=PorterStemmer()
 
   def tokenize_sentence(sentence_list):
     tokenized = []
@@ -384,6 +400,33 @@ def get_section_summary(path_of_file):
         else:
           j += 1
     return tokenized_list
+  
+  def lemmatize_and_stemming(tokenized_list):
+    li = []
+    wordsDict = {}
+    for i in words.words():
+      wordsDict[i] = 1
+    for i in range(0,len(tokenized_list)):
+      li2 = []
+      for j in range(0,len(tokenized_list[i])):
+        original_word = tokenized_list[i][j]
+        lemmatizeWord = lemmatizer.lemmatize(tokenized_list[i][j])
+        stemWord = stemmer.stem(tokenized_list[i][j])
+
+        try:
+          if wordsDict[stemWord] == 1:
+            li2.append(stemWord)
+            continue
+        except:       
+          try:
+            if wordsDict[lemmatizeWord] == 1:
+              li2.append(lemmatizeWord)
+              continue
+          except:
+            li2.append(original_word)
+
+      li.append(li2)
+    return li
 
   def preprocess_raw_data(text):
       text2 = re.sub(' +', ' ', text)
@@ -474,17 +517,8 @@ def get_section_summary(path_of_file):
     tfidf_scores_list = TF_IDF(tokenized_list)
     return tfidf_scores_list
 
-  import numpy as np
-  import pandas as pd
-  import nltk
-  import re
-  # from nltk.tokenize import sent_tokenize
-  # from nltk.corpus import stopwords
-  # from gensim.models import Word2Vec
-  # from scipy import spatial
-  # import networkx as nx
 
-  
+  #PAGE RANK ALGORITHM
   import math
   import re
   from collections import Counter
@@ -595,37 +629,6 @@ def get_section_summary(path_of_file):
         p[u] = (1-d)+d*g
     return p
 
-
-
-
-
-
-
-
-
-
-  # def page_rank(sentence_tokens):
-  #   #vectorization of sentences
-  #   w2v = Word2Vec(sentence_tokens,size=1,min_count=1,iter=1000)
-
-  #   #sentence embeddings using word embedding : The word embeddings produced using Word2Vec are such that the numerical vectors have cosine distance very low for similar words (like king & queen) but high cosine distance between unrelated words (like king & classroom)
-  #   sentence_embeddings = [[w2v[word][0] for word in words] for words in sentence_tokens]
-  #   max_len = max([len(tokens) for tokens in sentence_tokens])
-  #   sentence_embeddings = [np.pad(embedding,(0,max_len-len(embedding)),'constant') for embedding in sentence_embeddings]
-
-  #   #similarity between sentences using cosine similarity
-  #   similarity_matrix = np.zeros([len(sentence_tokens), len(sentence_tokens)])
-  #   for i,row_embedding in enumerate(sentence_embeddings):
-  #     for j,column_embedding in enumerate(sentence_embeddings):
-  #       similarity_matrix[i][j] = 1 - spatial.distance.cosine(row_embedding,column_embedding)
-
-  #   # build graph with cosine similarity as weights
-  #   nx_graph = nx.from_numpy_array(similarity_matrix)
-
-  #   #get pagerank scores
-  #   scores = nx.pagerank_numpy(nx_graph)
-  #   return scores
-
   # !pip install yake
 
   import yake
@@ -690,13 +693,14 @@ def get_section_summary(path_of_file):
               lambda kv:(kv[1], kv[0]), reverse= True))
     dict2=[]
     for i in dict1:
+      if(len(dict2)>summaryLength):
+        break
       x=i[0].split(" ")
       if(len(x)<=3):
         continue
       else:
         dict2.append(i)
-        if(len(dict2)>summaryLength):
-          break
+        
     
     opd1 = (sorted(dict2, key =lambda kv:kv[1][1]))
     summary=""
@@ -708,6 +712,7 @@ def get_section_summary(path_of_file):
     sentence_list = preprocess_raw_data(raw_text)
     tokenized_list = tokenize_sentence(sentence_list)
     tokenized_list = remove_stopwords(tokenized_list)
+    tokenized_list = lemmatize_and_stemming(tokenized_list)
     return [tokenized_list, sentence_list]
 
   def score_sentences(raw_text, tokenized_list, sentence_list):
@@ -734,18 +739,63 @@ def get_section_summary(path_of_file):
     sentences_scores = overall_score(sentence_list, normalized_scores_list)
 
     # Step 5: Sorting the dictionary and taking 40% and generating summary
-    # final_summary = get_summary(sentences_scores)
+    final_summary = get_summary(sentences_scores)
 
-    # return final_summary
-    return get_summary(sentences_scores)
+    return final_summary
+    # return get_summary(sentences_scores)
 
+  
+  mapForSubHeading = {
+    "TITLE" : [
+        "heading",
+      ],
+      "INTRODUCTION" : [
+        "introduction",
+      ],
+      "LITERATURE SURVEY" : [
+        "literature survey", "literature review", "related work", "related works", "related study", "background", "state of the art"
+      ],
+      "METHODOLOGY" : [
+        "methodology", "approach", "structure and discussion", "method", "proposed model", "proposed system", "algorithm", "materials and methods", "the proposed method", "proposed method", "experimental setup"
+      ],
+      "EXPERIMENTS & RESULTS": [
+        "result", "experiment",  "experiments", "experimental results", "result and discussion", "discussion", "results and discussion", "experiment and result analysis", "result and  evaluation", "results and  evaluation", "experimental verification", "comparison and discussion", "limitations and discussion", "experiments and results", "implement and experimental results", "experimental evalution", "experimental verification", "experimental results and  evalution"
+      ],
+      "CONCLUSION": [
+        "conclusion", "conclusion and future work", "conclusions", "conclusion and future scope", "conclusion and future works", "conclusions and limitations", "discussion and conclusions", "empirical study", "conclusion and further work"
+      ]
+    }
+  
+  getHeading = {}
 
-  summarized_dict = {}
+  for i in mapForSubHeading:
+    for j in mapForSubHeading[i]:
+      getHeading[j] = i
+
+  summarized_dict = {
+      "TITLE": '',
+      "INTRODUCTION": '',
+      "LITERATURE SURVEY": '',
+      "METHODOLOGY": '',
+      "EXPERIMENTS & RESULTS": '',
+      "CONCLUSION": ''
+  }
   for i in paper_content:
-    print("##########################################################")
-    summarized_dict[i] = generate_summary(str(paper_content[i]))
-   
-  print(summarized_dict) 
+    ind = re.sub("[\d+.]", "", i)
+    ind = ind.lower().strip()
+    try:
+      ind = getHeading[ind]
+    except KeyError:
+      ind = ind.capitalize()
+    
+    print(i, ind)   
+
+    try:
+      summarized_dict[ind] += " " + generate_summary(str(paper_content[i]))
+    except KeyError:
+      summarized_dict[ind] = generate_summary(str(paper_content[i]))
+
+  print("summary done")
   return summarized_dict
 
 
