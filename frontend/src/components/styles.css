@@ -11,8 +11,8 @@ button {
   background:#848BB3;
   border: none;
   color: #fff;
-  font-size: 24px;
-  font-weight: 700;
+  font-size: 15px;
+  font-weight: 400;
   border-radius: 7px;
   padding: 10px 20px;
   cursor: pointer;
@@ -43,7 +43,7 @@ table th {
   background-color:#848BB3;
   color:white;
   position: relative;
-  font-size: 18px;
+  font-size: 15px;
 }
 
 table th
@@ -81,8 +81,7 @@ table tr td {
   right: 0;
   top: 0;
   z-index: 1;
-  border-right: 2px solid black;
-  
+  border-right: 2px solid rgba(0, 0, 0, 0.589);
 }
 
 .resize-handle:hover {
@@ -98,6 +97,11 @@ table tr td {
   padding: 8px 12px 8px 12px;
   border-radius: 7px;
   font-size: 20px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  background-color: #36096d;
+  background-image: linear-gradient(315deg, #36096d 0%, #37d5d6 74%);
+  color: white;
 }
 
 .horizontalSeperationStyle {
@@ -113,9 +117,10 @@ table tr td {
 
 .titleText {
   padding: 10px;
-  background-color: #848BB3;
+  background-color: #37d5d6;
   color: #000;
   border-radius: 7px;
+  font-weight: 400;
 }
 
 
@@ -135,9 +140,31 @@ table tr td {
 
 .summaryButton {
   width: 200px;
-  background-color: #20bf55;
-  background-image: linear-gradient(315deg, #20bf55 0%, #01baef 74%);
+  background-color: #36096d;
+  /* background-image: linear-gradient(315deg, #36096d 0%, #37d5d6 74%); */
   padding: 8px 1px 1px 1px;
   border-radius: 7px;
   color: #fff;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.homeImageStyle {
+  height: 300px;
+  position: relative;
+  text-align: center;
+  background-color: #36096d;
+  background-image: linear-gradient(315deg, #36096d 0%, #37d5d6 74%);
+}
+
+.homePageButton {
+  padding: 10px 20px 10px 20px;
+  border-radius: 7px;
+}
+
+.aboutImageStyle {
+  height: 300px;
+  position: relative;
+  text-align: center;
+  background-color: #36096d;
+  background-image: linear-gradient(315deg, #36096d 0%, #37d5d6 74%);
 }

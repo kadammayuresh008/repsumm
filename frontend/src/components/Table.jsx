@@ -26,9 +26,6 @@ const Table = ({ headers, minCellWidth, maxCellWidth,tableContent }) => {
     setTableHeight(tableElement.current.offsetHeight);
   }, [tableHeight]);
 
-  // useEffect(()=>{
-  //   settableWidth(tableElement.current.offsetWidth);
-  // },[tableWidth])
 
   const mouseDown = (index) => {
     setActiveIndex(index);
@@ -76,10 +73,6 @@ const Table = ({ headers, minCellWidth, maxCellWidth,tableContent }) => {
     };
   }, [activeIndex, mouseMove, mouseUp, removeListeners]);
 
-  // Demo only
-  const resetTableCells = () => {
-    tableElement.current.style.gridTemplateColumns = "";
-  };
 
   return (
     <div className="bodyDesign">
@@ -104,7 +97,6 @@ const Table = ({ headers, minCellWidth, maxCellWidth,tableContent }) => {
           {tableContent}
         </table>
       </div>
-      {/* <button onClick={resetTableCells}>Reset</button> */}
     </div>
   );
 };

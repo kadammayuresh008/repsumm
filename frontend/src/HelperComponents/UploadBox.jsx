@@ -324,11 +324,7 @@ class ImageUploader extends React.Component {
                         pathname: "/Result",
                     }}
                     > 
-
-                    <div className="summaryButton">
-                        <p>Get Summary</p>
-                    </div> 
-
+                    <Button variant="success" className="homePageButton" >Get Summary</Button>
                 </Link>
             </div>
         );

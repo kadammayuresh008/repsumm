@@ -21,8 +21,8 @@ function App() {
     <Switch>
       <Route exact path="/" component={HomePage}/>
       <Route exact path="/About" component={About}/>
-      <Route path="/Login" component={Login}/>
-      <Route path="/Signup" component={SignUp}/>
+      {/* <Route path="/Login" component={Login}/> */}
+      {/* <Route path="/Signup" component={SignUp}/> */}
       <Route path="/UploadDoc" component={UploadDoc}/>
       <Route path="/Result" component={Result}/>
       <Route component={Error} />
