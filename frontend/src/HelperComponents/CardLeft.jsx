@@ -3,7 +3,7 @@ import { Card } from "react-bootstrap";
 import Image1 from "../Images/Image1.jpg";
 
 
-const CardLeft = () =>{
+const CardLeft = (props) =>{
         const ImageCard = {
             border: "1px solid",
             padding: "10px",
@@ -31,13 +31,9 @@ const CardLeft = () =>{
                         </center>
                     </div>
                     <div className="col-sm-7" style={cardDetails}>
-                        <h3>Lorem ipsum dolor sit amet</h3>
+                        <h3>{props.title}</h3>
                         <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac luctus mi. Aenean nec augue dolor.
-                            Sed varius sodales augue eu pulvinar. Etiam et risus varius, sollicitudin enim mollis, ornare nunc.
-                            Donec in convallis dolor, vitae placerat dolor. Vivamus eget elit lobortis, venenatis ex a, maximus
-                            elit. Cras dictum fringilla mi a dapibus. Vivamus lobortis, augue et luctus molestie, metus nunc
-                            semper lorem, at maximus velit felis quis neque.
+                            {props.content}
                         </p>
                     </div>
                 </div>
