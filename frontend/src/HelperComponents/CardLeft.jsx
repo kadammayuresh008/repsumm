@@ -5,9 +5,9 @@ import Image1 from "../Images/Image1.jpg";
 
 const CardLeft = (props) =>{
         const ImageCard = {
-            border: "1px solid",
+            border: "1px solid #36096d",
             padding: "10px",
-            boxShadow: "5px 10px",
+            boxShadow: "5px 8px #36096d",
             margin:"20px",
         }
 
@@ -21,7 +21,7 @@ const CardLeft = (props) =>{
             elevation: 1.0,
         }
         return (
-            <Card style={ImageCard}>
+            <Card style={ImageCard} className="infoCard">
                 <div className="row">
                     <div className="col-sm-5">
                         <center>

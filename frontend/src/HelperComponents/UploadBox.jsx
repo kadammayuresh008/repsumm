@@ -158,12 +158,18 @@ class ImageUploader extends React.Component {
             )
                 .then(res => {
                     this.setState({
+                        errorNotification: "Completed "+ (i+1),
                         isProcessing: false
                     });
                     this.setState({ 
                         dataToShow: res.data ? res.data : [] 
                     });
                     console.log(this.dataToShow)
+                    setTimeout(() => {
+                        this.setState({
+                            errorNotification: null
+                        });
+                    }, 3000);
                 })
                 .catch(err => {
                     this.setState({

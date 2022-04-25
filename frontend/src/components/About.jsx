@@ -19,24 +19,26 @@ const About = () => {
             </div>
             <br></br>
             <div className="container">
-                <Heading name="Why RPS?"></Heading>
-                <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac luctus mi. Aenean nec augue dolor.
-                    Sed varius sodales augue eu pulvinar. Etiam et risus varius, sollicitudin enim mollis, ornare nunc.
-                    Donec in convallis dolor, vitae placerat dolor. Vivamus eget elit lobortis, venenatis ex a, maximus
-                    elit. Cras dictum fringilla mi a dapibus. Vivamus lobortis, augue et luctus molestie, metus nunc
-                    semper lorem, at maximus velit felis quis neque.
+                {/* <Heading className="" name="Why RPS?"></Heading> */}
+                <span className="titleTextStyle">Why RPS?</span>
+                <p style={{margin: "10px"}}>
+                Preparing a research paper on a certain topic requires searching and analyzing multiple research papers related to the research topic. This process is not only time-consuming but also becomes hectic sometimes. Even after studying various papers, generating a summary and concluding results from it becomes difficult.Hence, this difficulty in reading multiple articles and understanding the actual content of the articles, made us realize the acute need for an application where a summarization of the research paper can be possible. This thought inspired us to design this web application to solve this problem. The web application designed will summarize the multiple research papers of a particular topic.
                 </p>
             </div>
+                <div className="horizontalSeperationStyle"></div>
             <br></br>
             <div>
-                <Heading name="Team Members"></Heading>
+                <span className="titleTextStyle">Team Members</span>
+                <br/>
+                {/* <Heading name="Team Members"></Heading> */}
                 <div className="row container">
                     <div className="col-sm-3">
                         <ReactRoundedImage
                             image={DefaultImage}
                             roundedColor="#848BB3"
                             roundedSize="5"
+                            imageWidth="150"
+                            imageHeight="150"
                         ></ReactRoundedImage>
                         <h5>Mayuresh Kadam</h5>
                     </div>
@@ -45,6 +47,8 @@ const About = () => {
                             image={DefaultImage}
                             roundedColor="#848BB3"
                             roundedSize="5"
+                            imageWidth="150"
+                            imageHeight="150"
                         ></ReactRoundedImage>
                         <h5>Mahek Baru</h5>
                     </div>
@@ -53,6 +57,8 @@ const About = () => {
                             image={DefaultImage}
                             roundedColor="#848BB3"
                             roundedSize="5"
+                            imageWidth="150"
+                            imageHeight="150"
                         ></ReactRoundedImage>
                         <h5>Jainam Mehta</h5>
                     </div>
@@ -61,6 +67,8 @@ const About = () => {
                             image={DefaultImage}
                             roundedColor="#848BB3"
                             roundedSize="5"
+                            imageWidth="150"
+                            imageHeight="150"
                         ></ReactRoundedImage>
                         <h5>Sourabh Bujawade</h5>
                     </div>
