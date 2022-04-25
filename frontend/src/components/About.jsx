@@ -3,14 +3,6 @@ import ReactRoundedImage from 'react-rounded-image';
 import DefaultImage from '../Images/DefaultImage.jpg';
 
 const About = () => {
-
-    const AboutImageStyle = {
-        height: "300px",
-        backgroundColor: "#848BB3",
-        position: "relative",
-        textAlign: "center",
-    }
-
     const AboutImageText = {
         position: "absolute",
         left: "50px",
@@ -22,7 +14,7 @@ const About = () => {
 
     return (
         <center>
-            <div className="AboutImageStyle" style={AboutImageStyle}>
+            <div className="aboutImageStyle">
                 <h1 className="AboutImageText" style={AboutImageText}>About Research Paper Summarizer </h1>
             </div>
             <br></br>
