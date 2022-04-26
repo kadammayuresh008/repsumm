@@ -26,7 +26,7 @@ from pdfminer.pdfpage import PDFPage, PDFTextExtractionNotAllowed
 from pdfminer.pdfparser import PDFParser
 from .config import *
 from .models import ProcessImage
-
+from gensim.models import Word2Vec
 
 import io
 from PIL import Image
@@ -519,6 +519,42 @@ def get_section_summary(path_of_file):
 
 
   #PAGE RANK ALGORITHM
+  # new algo
+  import numpy as np
+  import pandas as pd
+  import nltk
+  import re
+  from nltk.tokenize import sent_tokenize
+  from nltk.corpus import stopwords
+  from gensim.models import Word2Vec
+  from scipy import spatial
+  import networkx as nx
+
+  def page_rank(sentence_tokens):
+    #vectorization of sentences
+    w2v = Word2Vec(sentence_tokens,size=1,min_count=1,iter=1000)
+ 
+    #sentence embeddings using word embedding : The word embeddings produced using Word2Vec are such that the numerical vectors have cosine distance very low for similar words (like king & queen) but high cosine distance between unrelated words (like king & classroom)
+    sentence_embeddings = [[w2v[word][0] for word in words] for words in sentence_tokens]
+    max_len = max([len(tokens) for tokens in sentence_tokens])
+    sentence_embeddings = [np.pad(embedding,(0,max_len-len(embedding)),'constant') for embedding in sentence_embeddings]
+
+    #similarity between sentences using cosine similarity
+    similarity_matrix = np.zeros([len(sentence_tokens), len(sentence_tokens)])
+    for i,row_embedding in enumerate(sentence_embeddings):
+      for j,column_embedding in enumerate(sentence_embeddings):
+        similarity_matrix[i][j] = 1 - spatial.distance.cosine(row_embedding,column_embedding)
+
+    # build graph with cosine similarity as weights
+    nx_graph = nx.from_numpy_array(similarity_matrix)
+
+    #get pagerank scores
+    scores = nx.pagerank_numpy(nx_graph)
+    return scores
+
+
+  """
+  #Old pagerank algo
   import math
   import re
   from collections import Counter
@@ -628,7 +664,7 @@ def get_section_summary(path_of_file):
         g = pagerank(matrix, u, n, p)
         p[u] = (1-d)+d*g
     return p
-
+"""
   # !pip install yake
 
   import yake
