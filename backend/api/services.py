@@ -269,13 +269,10 @@ def get_section_summary(path_of_file):
   import pytesseract
 
 
-  # def multi(img,text):
-  #   perPageText=pytesseract.image_to_string(img)
-  #   text[0] +=perPageText
+  def multi(img,text):
+    perPageText=pytesseract.image_to_string(img)
+    text[0] +=perPageText
 
-  def multi(img1):
-    perPageText=pytesseract.image_to_string(img1)
-    return perPageText
   # Commented out IPython magic to ensure Python compatibility.
   # %matplotlib inline
   import cv2
@@ -293,36 +290,6 @@ def get_section_summary(path_of_file):
       cv2.imwrite(MEDIA_PROCESS_IMAGE_FILE_LOCAL_URL+'/media/processImages' + str(paperInd)+'/out2'+str(i)+'.jpg', crop_img)
       i=i+1
 
-
-  import os
-  import glob
-  import concurrent.futures
-  import time
-  import numpy as np
-  os.environ['OMP_THREAD_LIMIT'] = '1'
-  text=[]
-  task=[]
-  values=[]
-  for i in range(len(pages)):
-    # filename = 'newfolder/out2'+str(i)+'.jpg'
-    filename = MEDIA_PROCESS_IMAGE_FILE_LOCAL_URL+'/media/processImages' + str(paperInd)+'/out2'+str(i)+'.jpg'
-    img1 = np.array(Image.open(filename))
-    values.append(img1)
-
-  with concurrent.futures.ProcessPoolExecutor(max_workers=len(pages)) as exe:
-    # filename = 'newfolder/out20.jpg'
-    filename = MEDIA_PROCESS_IMAGE_FILE_LOCAL_URL+'/media/processImages' + str(paperInd)+'/out20' +'.jpg'
-    img1 = np.array(Image.open(filename))
-    exe.submit(multi,img1)
-    task=exe.map(multi,values)
-  
-  shutil.rmtree(MEDIA_PROCESS_IMAGE_FILE_LOCAL_URL+'/media/processImages' + str(paperInd))
-
-  for r in task:
-    text.append(r)
-
-  text = ' '.join(text)
-  """
   import numpy as np
   import threading
   task1=[]
@@ -339,14 +306,14 @@ def get_section_summary(path_of_file):
     i.start()
   for i in task1:
     i.join()
-"""
+
   # Text extracted
   # print(text[0])
   # print("#####################################################################################################")
 
   # """### Extracting the content of all the headings"""
 
-  text2 = text
+  text2 = text[0]
 
   # print(text2)
   for i in range(0,len(final_headings)):

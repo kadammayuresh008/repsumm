@@ -118,7 +118,7 @@ class ImageUploader extends React.Component {
     /**
        Handle Upload after Upload Button Clicked
     **/
-    handleUploadImage(e) {
+    handleUploadImage = async (e) => {
         e.preventDefault();
         this.setState({
             isProcessing: true
@@ -152,6 +152,36 @@ class ImageUploader extends React.Component {
         //     });
         
         for(let i=0; i<listOfFile.length; i++) {
+            try {
+                const res = await axios.post(url, listOfFile[i]);
+                console.log(res.data);
+                this.setState({
+                    errorNotification: "Completed "+ (i+1),
+                    isProcessing: false
+                });
+                this.setState({ 
+                    dataToShow: res.data ? res.data : [] 
+                });
+                console.log(this.dataToShow)
+                setTimeout(() => {
+                    this.setState({
+                        errorNotification: null
+                    });
+                }, 3000);
+            } 
+            catch (err) {
+                this.setState({
+                    isProcessing: false,
+                    errorNotification: "Not able to process"
+                });
+                setTimeout(() => {
+                    this.setState({
+                        errorNotification: null
+                    });
+                }, 3000);
+                console.log(err);
+            }
+            /*
             axios.post(
                 url, 
                 listOfFile[i]
@@ -183,6 +213,7 @@ class ImageUploader extends React.Component {
                     }, 3000);
                     console.log(err);
                 });
+            */
         }
     }
 
