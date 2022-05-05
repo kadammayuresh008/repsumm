@@ -396,9 +396,15 @@ class ImageUploader extends React.Component {
                 <div className='logContainer'>
                     {
                         Object.keys(this.state.logList).map((i) => (
-                            <Card border="info" style={{ width: '18rem', marginBottom: '5px'}} bg="info">
-                                <Card.Text>{this.state.logList[i]}</Card.Text>
-                            </Card>
+                            this.state.logList[i]*1 >= 1 
+                            ?
+                                <Card className='speciaLogCard' border="info" >
+                                    <Card.Text>{this.state.logList[i]}</Card.Text>
+                                </Card>
+                            :
+                                <Card className='logCard' border="info" >
+                                    <Card.Text>{this.state.logList[i]}</Card.Text>
+                                </Card>
                         ))
                     }
                 </div>

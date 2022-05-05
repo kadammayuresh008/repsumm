@@ -178,3 +178,19 @@ table tr td {
   font-weight: 400;
   z-index: 1000;
 }
+
+.logContainer .logCard {
+  width: 18rem;
+  margin-bottom: 5px;
+  /* background-image: linear-gradient(315deg, #36096d 0%, #37d5d6 74%); */
+  /* background-image: linear-gradient(315deg, #fff 90%, #37d5d6 0%); */
+  /* color: #fff; */
+}
+
+.logContainer .speciaLogCard {
+  width: 18rem;
+  margin-bottom: 5px;
+  background-image: linear-gradient(315deg, #36096d 0%, #37d5d6 74%);
+  /* background-image: linear-gradient(315deg, #fff 90%, #37d5d6 0%); */
+  color: #fff;
+}
