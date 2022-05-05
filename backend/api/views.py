@@ -39,7 +39,10 @@ class RPView(APIView):
         # serializer = RPSerializer(rps, many=True)
         # return Response(serializer.data)
         # json_object = json.dumps(summ) 
-        return Response(summ)
+        global summ
+        data_to_send = summ
+        summ = {}
+        return Response(data_to_send)
 
 
     def post(self, request, *args, **kwargs):

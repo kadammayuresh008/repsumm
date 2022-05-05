@@ -168,3 +168,13 @@ table tr td {
   background-color: #36096d;
   background-image: linear-gradient(315deg, #36096d 0%, #37d5d6 74%);
 }
+
+.logContainer {
+  margin-left: 20px;
+  position: absolute;
+  max-height: 560px;
+  overflow-y: scroll;
+  font-size: 16px;
+  font-weight: 400;
+  z-index: 1000;
+}

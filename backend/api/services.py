@@ -9,8 +9,13 @@ Original file is located at
 # Installation of required packages
 """
 
-# pip install pytesseract
 
+import multiprocessing
+from multiprocessing import Process
+from .consumers import ChatConsumer
+# pip install pytesseract
+from asgiref.sync import async_to_sync
+from channels.layers import get_channel_layer
 """**Pdfminer** is a tool for extracting information from PDF documents and focuses on getting and analyzing text data. Some of the features includes: getting the exact location, font or color of the text."""
 
 # !pip install pdfminer.six
@@ -44,6 +49,16 @@ from django.core.files import File
 cntOfPaper = 0
 
 def get_section_summary(path_of_file):
+  def event_triger(message):
+    channel_layer = get_channel_layer()
+    async_to_sync(channel_layer.group_send)(
+        'event_rps',
+        {
+            'type': 'send_message_to_frontend',
+            'message': message
+        }
+    ) 
+
   global cntOfPaper
   paperInd = cntOfPaper
   cntOfPaper += 1
@@ -134,8 +149,8 @@ def get_section_summary(path_of_file):
   paper_content['heading'] = heading.strip()
   bold_words = abstract
 
+  
   """### Extracting the headings of all the sections"""
-
   # Function to extract Springer Headings
   import re
   new1 = re.sub('@+', ' ', abstract)
@@ -238,6 +253,7 @@ def get_section_summary(path_of_file):
   # Displaying the final headings
   for i in final_headings:
     print(i)
+  event_triger("Subheadings Extracted")
 
   """### OCR Implementation"""
 
@@ -261,6 +277,7 @@ def get_section_summary(path_of_file):
     page.save(MEDIA_PROCESS_IMAGE_FILE_LOCAL_URL + '/media/processImages' + str(paperInd) +'/out2'+str(i)+'.jpg')
     i=i+1
   
+  # event_triger("Converted Pdf pages to Images")
 
   try:
       from PIL import Image
@@ -290,11 +307,16 @@ def get_section_summary(path_of_file):
       cv2.imwrite(MEDIA_PROCESS_IMAGE_FILE_LOCAL_URL+'/media/processImages' + str(paperInd)+'/out2'+str(i)+'.jpg', crop_img)
       i=i+1
 
+  event_triger("Removed Headers and Footers")
+
   import numpy as np
   import threading
   task1=[]
 
   text=[""]
+  event_triger("Text Extraction Process Starts")
+
+  """
   for i in range(len(pages)):
     filename = MEDIA_PROCESS_IMAGE_FILE_LOCAL_URL+'/media/processImages' + str(paperInd)+'/out2'+str(i)+'.jpg'
     img1 = np.array(Image.open(filename))
@@ -306,6 +328,24 @@ def get_section_summary(path_of_file):
     i.start()
   for i in task1:
     i.join()
+  """
+  print("Number of cpu : ", multiprocessing.cpu_count())
+
+  for i in range(len(pages)):
+    filename = MEDIA_PROCESS_IMAGE_FILE_LOCAL_URL+'/media/processImages' + str(paperInd)+'/out2'+str(i)+'.jpg'
+    img1 = np.array(Image.open(filename))
+    # df=threading.Thread(target= multi(img1,text), name='t'+str(i))
+    proc = Process(target=multi(img1,text), name='t'+str(i))
+    task1.append(proc)
+    proc.start()
+
+  for proc in task1:
+    proc.join()
+  
+  shutil.rmtree(MEDIA_PROCESS_IMAGE_FILE_LOCAL_URL+'/media/processImages' + str(paperInd))
+
+  event_triger("Text Extraction Process Completed using OCR")
+
 
   # Text extracted
   # print(text[0])
@@ -346,6 +386,8 @@ def get_section_summary(path_of_file):
     paper_content[lastKey] = text2.split("References")[0].replace("\n"," ")
 
 
+  event_triger("Extracted section-wise content")
+
 
   """## Displaying the content for all the sections
 
@@ -365,7 +407,6 @@ def get_section_summary(path_of_file):
   # for i in final_headings:
   #   print("\n\n",i)
   #   print(paper_content[i])
-
 
 
   """### Pre-processing"""
@@ -524,8 +565,8 @@ def get_section_summary(path_of_file):
   import pandas as pd
   import nltk
   import re
-  from nltk.tokenize import sent_tokenize
-  from nltk.corpus import stopwords
+  # from nltk.tokenize import sent_tokenize
+  # from nltk.corpus import stopwords
   from gensim.models import Word2Vec
   from scipy import spatial
   import networkx as nx
@@ -816,6 +857,8 @@ def get_section_summary(path_of_file):
       "EXPERIMENTS & RESULTS": '',
       "CONCLUSION": ''
   }
+  event_triger("Summary Generation Process Starts")
+
   for i in paper_content:
     ind = re.sub("[\d+.]", "", i)
     ind = ind.lower().strip()
@@ -830,6 +873,8 @@ def get_section_summary(path_of_file):
       summarized_dict[ind] += " " + generate_summary(str(paper_content[i]))
     except KeyError:
       summarized_dict[ind] = generate_summary(str(paper_content[i]))
+
+  event_triger("Summary Generation Process Completed")
 
   print("summary done")
   return summarized_dict

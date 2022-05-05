@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import config from '../config.json';
-import { Accordion, Card, Button } from "react-bootstrap";
+import { Accordion, Card, Button, ToastContainer, Toast } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 var listOfFile = [];
@@ -23,8 +23,66 @@ class ImageUploader extends React.Component {
             dataToShow: null,
             isProcessing: false,
             uploadingPaperNameList: [],
+            running: false,
+            currentTimeMs: 0,
+            currentTimeSec: 0,
+            currentTimeMin: 0,
+            logList: [],
         };
     }
+
+    //to get time
+    formatTime = (val, ...rest) => {
+        let value = val.toString();
+        if (value.length < 2) {
+          value = '0' + value;
+        }
+        if (rest[0] === 'ms' && value.length < 3) {
+          value = '0' + value;
+        }
+        return value;
+      };
+    
+      start = () => {
+        this.setState({
+            currentTimeMs: 0,
+            currentTimeSec: 0,
+            currentTimeMin: 0,
+          });
+          console.log("started");
+        if (!this.state.running) {
+          this.setState({ running: true });
+          this.watch = setInterval(() => this.pace(), 10);
+        }
+      };
+    
+      stop = () => {
+        this.setState({ running: false });
+        clearInterval(this.watch);
+      };
+    
+      pace = () => {
+        this.setState({ currentTimeMs: this.state.currentTimeMs + 10 });
+        if (this.state.currentTimeMs >= 1000) {
+          this.setState({ currentTimeSec: this.state.currentTimeSec + 1 });
+          this.setState({ currentTimeMs: 0 });
+        }
+        if (this.state.currentTimeSec >= 60) {
+          this.setState({ currentTimeMin: this.state.currentTimeMin + 1 });
+          this.setState({ currentTimeSec: 0 });
+        }
+      };
+    
+      reset = () => {
+        this.setState({
+          currentTimeMs: 0,
+          currentTimeSec: 0,
+          currentTimeMin: 0,
+        });
+      };
+
+    //end of to get time
+
     
     /**
        Drag and Drop Event Handlers
@@ -124,6 +182,25 @@ class ImageUploader extends React.Component {
             isProcessing: true
         });
         let url = config.UPLOAD_DOC_URL;
+
+
+        //socket
+        let socketUrl = 'ws://127.0.0.1:8000/ws/socket-server/'
+
+        const messageSocket = new WebSocket(socketUrl)
+
+        messageSocket.onmessage = (e) =>{
+            let data = JSON.parse(e.data)
+            console.log(data);
+
+            let tmpList = this.state.logList;
+            tmpList.push(data["message"])
+            this.setState({
+                logList: tmpList,
+            });
+        }
+
+
         // axios.post(
         //     url, 
         //     listOfFile
@@ -150,11 +227,18 @@ class ImageUploader extends React.Component {
         //         }, 3000);
         //         console.log(err);
         //     });
-        
+    
+        this.start();
         for(let i=0; i<listOfFile.length; i++) {
+            let tmpList = this.state.logList;
+            tmpList.push((i+1).toString());
+            this.setState({
+                logList: tmpList,
+            });
+
             try {
                 const res = await axios.post(url, listOfFile[i]);
-                console.log(res.data);
+                // console.log(res.data);
                 this.setState({
                     errorNotification: "Completed "+ (i+1),
                     isProcessing: false
@@ -162,12 +246,13 @@ class ImageUploader extends React.Component {
                 this.setState({ 
                     dataToShow: res.data ? res.data : [] 
                 });
-                console.log(this.dataToShow)
+                // console.log(this.dataToShow)
                 setTimeout(() => {
                     this.setState({
                         errorNotification: null
                     });
                 }, 3000);
+                console.log(this.state.currentTimeMin + " : " + this.state.currentTimeSec + " : " + this.state.currentTimeMs);
             } 
             catch (err) {
                 this.setState({
@@ -180,6 +265,7 @@ class ImageUploader extends React.Component {
                     });
                 }, 3000);
                 console.log(err);
+                this.stop();
             }
             /*
             axios.post(
@@ -215,6 +301,7 @@ class ImageUploader extends React.Component {
                 });
             */
         }
+        this.stop();
     }
 
     handleCancelUpload(e) {
@@ -222,7 +309,8 @@ class ImageUploader extends React.Component {
         this.setState({
             file: null,
             dataToShow: null,
-            uploadingPaperNameList: []
+            uploadingPaperNameList: [],
+            logList: [],
         });
         listOfFile = [];
     }
@@ -305,6 +393,15 @@ class ImageUploader extends React.Component {
         
         return (
             <div>
+                <div className='logContainer'>
+                    {
+                        Object.keys(this.state.logList).map((i) => (
+                            <Card border="info" style={{ width: '18rem', marginBottom: '5px'}} bg="info">
+                                <Card.Text>{this.state.logList[i]}</Card.Text>
+                            </Card>
+                        ))
+                    }
+                </div>
                 <div className="image-uploader-wrapper">
                     
                     <div className={dragOverClass}>
@@ -361,7 +458,7 @@ class ImageUploader extends React.Component {
                         pathname: "/Result",
                     }}
                     > 
-                    <Button variant="success" className="homePageButton" >Get Summary</Button>
+                    <Button variant="success" className="homePageButton" >Get Summary View</Button>
                 </Link>
             </div>
         );
