@@ -1,5 +1,4 @@
 import React from "react";
-import Heading from "../HelperComponents/Heading";
 import ImageUploader from "../HelperComponents/UploadBox";
 
 

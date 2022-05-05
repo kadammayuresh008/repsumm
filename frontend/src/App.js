@@ -1,6 +1,6 @@
 import './App.css';
 import {Route, Switch } from 'react-router-dom';
-import React,{Component} from "react";
+import React from "react";
 import WebNavbar from './HelperComponents/WebNavbar';
 import UploadDoc from './components/UploadDoc';
 import HomePage from './components/HomePage';

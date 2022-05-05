@@ -1,4 +1,3 @@
-import Heading from '../HelperComponents/Heading';
 import ReactRoundedImage from 'react-rounded-image';
 import DefaultImage from '../Images/DefaultImage.jpg';
 

@@ -27,7 +27,7 @@ const CardLeft = (props) =>{
                         <center>
                             <img src={
                                 Image1
-                            } style={cardImage} alt="Image not Found"></img>
+                            } style={cardImage} alt="Not Found"></img>
                         </center>
                     </div>
                     <div className="col-sm-7" style={cardDetails}>

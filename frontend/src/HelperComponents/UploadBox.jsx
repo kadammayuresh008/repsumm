@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import config from '../config.json';
-import { Accordion, Card, Button, ToastContainer, Toast } from "react-bootstrap";
+import { Card, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 var listOfFile = [];
@@ -137,7 +137,7 @@ class ImageUploader extends React.Component {
     handleAddImage(e) {
         e.preventDefault();
         let file = this.refs.image.files[0];
-        console.log(file);
+        // console.log(file);
         // Validate file is of type pdf
         let fileType = this.refs.image.files[0].type.split('/')[1];
         if (fileType !== "pdf") {
@@ -168,7 +168,7 @@ class ImageUploader extends React.Component {
         form_data.append('rp_file', this.refs.image.files[0], this.refs.image.files[0].name);
         form_data.append('title', this.refs.image.files[0].name);
         listOfFile.push(form_data);
-        console.log(listOfFile);
+        // console.log(listOfFile);
     }
 
 
@@ -191,7 +191,7 @@ class ImageUploader extends React.Component {
 
         messageSocket.onmessage = (e) =>{
             let data = JSON.parse(e.data)
-            console.log(data);
+            // console.log(data);
 
             let tmpList = this.state.logList;
             tmpList.push(data["message"])
@@ -352,28 +352,29 @@ class ImageUploader extends React.Component {
 
         
         // Show Extracted Text if file is uploaded properly
-        let extractedText = this.state.dataToShow
-            ? <div>
-                <h4>
-                    Sections from Research Paper
-                </h4>
-            {
-                Object.keys(this.state.dataToShow).map((key, i) => (
-                    <Accordion flush>
-                        <Accordion.Item eventKey={i}>
-                            <Accordion.Header>{key.toUpperCase()}</Accordion.Header>
-                            <Accordion.Body>
-                                <p>
-                                {this.state.dataToShow[key]}
-                                </p>
-                            </Accordion.Body>
-                        </Accordion.Item>
-                    </Accordion>
-                ))
-            }
+        // component to test if text is extracted properly or not
+        // let extractedText = this.state.dataToShow
+        //     ? <div>
+        //         <h4>
+        //             Sections from Research Paper
+        //         </h4>
+        //     {
+        //         Object.keys(this.state.dataToShow).map((key, i) => (
+        //             <Accordion flush>
+        //                 <Accordion.Item eventKey={i}>
+        //                     <Accordion.Header>{key.toUpperCase()}</Accordion.Header>
+        //                     <Accordion.Body>
+        //                         <p>
+        //                         {this.state.dataToShow[key]}
+        //                         </p>
+        //                     </Accordion.Body>
+        //                 </Accordion.Item>
+        //             </Accordion>
+        //         ))
+        //     }
       
-          </div>
-            : null;
+        //   </div>
+        //     : null;
 
 
         // Show uploading paper list
@@ -414,13 +415,13 @@ class ImageUploader extends React.Component {
                         <div className="icon-text-box">
                             <div className="upload-icon">
                                 {
-                                this.state.isProcessing == true 
+                                this.state.isProcessing === true 
                                     ? <i className="fa fa-spinner fa-spin" aria-hidden="true"></i>
                                     : <i className="fa fa-upload" aria-hidden="true" />
                                 }                                
                             </div>
                             {
-                            this.state.isProcessing == true 
+                            this.state.isProcessing === true 
                                 ? null
                                 : <div className="upload-text">
                                         {uploadText}
@@ -429,7 +430,7 @@ class ImageUploader extends React.Component {
                             {errorNotification}
                         </div>
                         <div>
-                            {this.state.isProcessing == true 
+                            {this.state.isProcessing === true 
                                 ? null
                                 : <input
                                 type="file"

@@ -24,6 +24,7 @@ const Table = ({ headers, minCellWidth, maxCellWidth,tableContent }) => {
     tableElement.current.style.gridTemplateColumns = `${styleForColumns}`;
     
     setTableHeight(tableElement.current.offsetHeight);
+    //eslint-disable-next-line
   }, [tableHeight]);
 
 

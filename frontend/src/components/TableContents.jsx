@@ -8,7 +8,7 @@ const TableRow = ({data, paperHeaders}) => {
     <tr>
       {
         Object.keys(paperHeaders).map((index) => (
-          index == 0
+          index === 0
             ? <td id="paper-index">
                 {data[paperHeaders[index]]}
               </td>
@@ -17,7 +17,7 @@ const TableRow = ({data, paperHeaders}) => {
               <Accordion.Item eventKey="0">
                   <Accordion.Header>{paperHeaders[index]}</Accordion.Header>
                   <Accordion.Body>
-                    {data[paperHeaders[index]] == "" ? "NA" : data[paperHeaders[index]]}
+                    {data[paperHeaders[index]] === "" ? "NA" : data[paperHeaders[index]]}
                   </Accordion.Body>
               </Accordion.Item>
             </Accordion>

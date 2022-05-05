@@ -1,9 +1,8 @@
-import { useState, useCallback, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import TableContent from './TableContents';
 import Table from './Table';
 import config from '../config.json';
 import axios from 'axios';
-import { Accordion, Card, Button } from "react-bootstrap";
 import SectionWiseSumm from './SectionWiseSumm';
 
 
@@ -27,6 +26,7 @@ const Result = ()=>{
     if(summaryList != null) {
       getAllSubHeadings();
     }
+    //eslint-disable-next-line
   }, [summaryList]);
 
 

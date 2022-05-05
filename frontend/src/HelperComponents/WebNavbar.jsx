@@ -1,5 +1,5 @@
 import React from "react";
-import { Navbar , Container ,NavDropdown ,Nav} from "react-bootstrap";
+import { Navbar, Container, Nav} from "react-bootstrap";
 import LogoImage from "../Images/UploadDocImage1.png";
 
 
@@ -15,7 +15,7 @@ class WebNavbar extends React.Component {
       <Container>
       <img 
             src={LogoImage} 
-            alt="Image not found"
+            alt="Not found"
             style={imgStyle}></img>
         <Navbar.Brand href="/">RPS</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
