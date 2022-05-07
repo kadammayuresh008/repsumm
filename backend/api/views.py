@@ -41,7 +41,7 @@ class RPView(APIView):
         # json_object = json.dumps(summ) 
         global summ
         data_to_send = summ
-        summ = {}
+        # summ = {}
         return Response(data_to_send)
 
 

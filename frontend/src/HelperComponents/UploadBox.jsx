@@ -345,7 +345,12 @@ class ImageUploader extends React.Component {
 
         // Show Error message if file type is not an image
         let errorNotification = this.state.errorNotification
-            ? <div className="error-notification">
+            ? 
+            this.state.errorNotification.includes("Completed")
+            ? <div className="success-notification">
+                <p>{this.state.errorNotification}</p>
+            </div>
+            : <div className="error-notification">
                 <p>{this.state.errorNotification}</p>
             </div>
             : null;
@@ -465,7 +470,7 @@ class ImageUploader extends React.Component {
                         pathname: "/Result",
                     }}
                     > 
-                    <Button variant="success" className="homePageButton" >Get Summary View</Button>
+                    <Button variant="light" style={{backgroundColor: "#36096d", color: '#fff'}} className="homePageButton" >Get Summary View</Button>
                 </Link>
             </div>
         );
