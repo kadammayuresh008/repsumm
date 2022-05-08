@@ -200,6 +200,10 @@ class ImageUploader extends React.Component {
             });
         }
 
+        messageSocket.onclose = function (e) {
+            console.error('Chat socket closed');
+        };
+
 
         // axios.post(
         //     url, 
@@ -241,7 +245,6 @@ class ImageUploader extends React.Component {
                 // console.log(res.data);
                 this.setState({
                     errorNotification: "Completed "+ (i+1),
-                    isProcessing: false
                 });
                 this.setState({ 
                     dataToShow: res.data ? res.data : [] 
@@ -301,6 +304,9 @@ class ImageUploader extends React.Component {
                 });
             */
         }
+        this.setState({
+            isProcessing: false,
+        });
         this.stop();
     }
 

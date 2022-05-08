@@ -41,7 +41,7 @@ const Result = ()=>{
       }
       tmpSubHeadingList.push(tmpList);
     }
-    console.log(tmpSubHeadingList);
+    // console.log(tmpSubHeadingList);
     setSubHeadingList(tmpSubHeadingList);
   }
 

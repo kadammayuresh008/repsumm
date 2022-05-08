@@ -30,7 +30,19 @@ summ = {}
 
 ind = 0
 import json 
+from asgiref.sync import async_to_sync
+from channels.layers import get_channel_layer
 
+def event_triger():
+    channel_layer = get_channel_layer()
+    async_to_sync(channel_layer.group_send)(
+        'event_rps',
+        {
+            'type': 'disconnect',
+            'code': "1001"
+        }
+    ) 
+        
 class RPView(APIView):
     parser_classes = (MultiPartParser, FormParser)
 
@@ -42,7 +54,9 @@ class RPView(APIView):
         global summ
         data_to_send = summ
         # summ = {}
+        event_triger()
         return Response(data_to_send)
+
 
 
     def post(self, request, *args, **kwargs):
