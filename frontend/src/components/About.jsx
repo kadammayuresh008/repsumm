@@ -19,7 +19,7 @@ const About = () => {
             <br></br>
             <div className="container">
                 {/* <Heading className="" name="Why RPS?"></Heading> */}
-                <span className="titleTextStyle">Why RPS?</span>
+                <span className="titleTextStyle">Why RepSumm?</span>
                 <p style={{margin: "10px"}}>
                 Preparing a research paper on a certain topic requires searching and analyzing multiple research papers related to the research topic. This process is not only time-consuming but also becomes hectic sometimes. Even after studying various papers, generating a summary and concluding results from it becomes difficult.Hence, this difficulty in reading multiple articles and understanding the actual content of the articles, made us realize the acute need for an application where a summarization of the research paper can be possible. This thought inspired us to design this web application to solve this problem. The web application designed will summarize the multiple research papers of a particular topic.
                 </p>

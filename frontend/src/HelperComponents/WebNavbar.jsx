@@ -17,7 +17,7 @@ class WebNavbar extends React.Component {
             src={LogoImage} 
             alt="Not found"
             style={imgStyle}></img>
-        <Navbar.Brand href="/">RPS</Navbar.Brand>
+        <Navbar.Brand href="/">RepSumm</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
