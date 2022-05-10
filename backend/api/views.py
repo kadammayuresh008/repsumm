@@ -53,7 +53,7 @@ class RPView(APIView):
         # json_object = json.dumps(summ) 
         global summ
         data_to_send = summ
-        # summ = {}
+        summ = {}
         event_triger()
         return Response(data_to_send)
 

@@ -149,7 +149,8 @@ def get_section_summary(path_of_file):
   paper_content['heading'] = heading.strip()
   bold_words = abstract
 
-  
+  print(paper_content)
+
   """### Extracting the headings of all the sections"""
   # Function to extract Springer Headings
   import re
@@ -213,6 +214,8 @@ def get_section_summary(path_of_file):
       final_headings.append(i.split(first + ".1")[0])
     else:
       final_headings.append(i)
+
+  # print(final_headings)
 
   # Function to extract IEEE Headings
   def ValidationOfRomanNumerals(string):
@@ -343,7 +346,6 @@ def get_section_summary(path_of_file):
     proc.join()
   
   shutil.rmtree(MEDIA_PROCESS_IMAGE_FILE_LOCAL_URL+'/media/processImages' + str(paperInd))
-
   event_triger("Text Extraction Process Completed using OCR")
 
 
@@ -354,10 +356,14 @@ def get_section_summary(path_of_file):
   # """### Extracting the content of all the headings"""
 
   text2 = text[0]
-
+  if final_headings[0][0] >= '0' and final_headings[0][0] <= '9':
+    final_headings = sorted(final_headings)
+  # final_headings
   # print(text2)
   for i in range(0,len(final_headings)):
-    data=final_headings[i].strip()
+    data=final_headings[i].strip().replace("  ", " ")
+    if "Conclusion" in data:
+      data = "Conclusion"
     final_headings[i]=data
   # for i in range(len(final_headings)):
   #   print(final_headings[i],text2.index(final_headings[i]))
@@ -473,7 +479,10 @@ def get_section_summary(path_of_file):
       text2 = re.sub(' +', ' ', text)
       text2 = text2.strip()
       og_sentences = text2.split('. ')
-      special_chars = list((punctuation))
+      special_chars = list(set(list(punctuation)) - set(['.','%','-']))
+      # special_chars = list((punctuation))
+      # special_chars.remove('.')
+      
       special_chars.append('—')
       sentences = []
       for i in range(len(og_sentences)):
@@ -761,24 +770,26 @@ def get_section_summary(path_of_file):
     return dict1
 
   def get_summary(dict1):
-
     total=len(dict1)
-    summaryLength=math.ceil((10*total)/100)
+    total_len = 0
+    summaryLength = 6
+    max_words_allowed = 120
 
-    # dict1 = sorted(dict1, key=lambda x: x[0],reverse=True)
     dict1 = (sorted(dict1.items(), key =
               lambda kv:(kv[1], kv[0]), reverse= True))
     dict2=[]
     for i in dict1:
-      if(len(dict2)>summaryLength):
+      if(len(dict2)>= summaryLength or total_len >= max_words_allowed):
         break
+
       x=i[0].split(" ")
-      if(len(x)<=3):
+
+      if(len(x)<=5):
         continue
       else:
         dict2.append(i)
+        total_len += len(x)
         
-    
     opd1 = (sorted(dict2, key =lambda kv:kv[1][1]))
     summary=""
     for i in opd1:
@@ -833,10 +844,10 @@ def get_section_summary(path_of_file):
         "literature survey", "literature review", "related work", "related works", "related study", "background", "state of the art"
       ],
       "METHODOLOGY" : [
-        "methodology", "approach", "structure and discussion", "method", "proposed model", "proposed system", "algorithm", "materials and methods", "the proposed method", "proposed method", "experimental setup"
+        "design and implementation", "methodology", "approach", "structure and discussion", "method", "proposed model", "proposed system", "algorithm", "materials and methods", "the proposed method", "proposed method", "experimental setup"
       ],
       "EXPERIMENTS & RESULTS": [
-        "result", "experiment",  "experiments", "experimental results", "result and discussion", "discussion", "results and discussion", "experiment and result analysis", "result and  evaluation", "results and  evaluation", "experimental verification", "comparison and discussion", "limitations and discussion", "experiments and results", "implement and experimental results", "experimental evalution", "experimental verification", "experimental results and  evalution"
+        "results", "result", "experiment",  "experiments", "experimental results", "result and discussion", "discussion", "results and discussion", "experiment and result analysis", "result and  evaluation", "results and  evaluation", "experimental verification", "comparison and discussion", "limitations and discussion", "experiments and results", "implement and experimental results", "experimental evalution", "experimental verification", "experimental results and  evalution"
       ],
       "CONCLUSION": [
         "conclusion", "conclusion and future work", "conclusions", "conclusion and future scope", "conclusion and future works", "conclusions and limitations", "discussion and conclusions", "empirical study", "conclusion and further work"
@@ -850,7 +861,7 @@ def get_section_summary(path_of_file):
       getHeading[j] = i
 
   summarized_dict = {
-      "TITLE": '',
+      "TITLE": paper_content['heading'],
       "INTRODUCTION": '',
       "LITERATURE SURVEY": '',
       "METHODOLOGY": '',
@@ -860,6 +871,8 @@ def get_section_summary(path_of_file):
   event_triger("Summary Generation Process Starts")
 
   for i in paper_content:
+    if i=='heading':
+      continue
     ind = re.sub("[\d+.]", "", i)
     ind = ind.lower().strip()
     try:
