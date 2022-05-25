@@ -422,11 +422,13 @@ def get_section_summary(path_of_file):
   # nltk.download('wordnet')
   # nltk.download('vader_lexicon')
   # nltk.download('omw-1.4')
+  # nltk.download('punkt')
   import re
   from string import punctuation
   from nltk.sentiment.vader import SentimentIntensityAnalyzer
   from nltk.stem import WordNetLemmatizer,PorterStemmer
   from nltk.corpus import words
+  from nltk.tokenize import sent_tokenize, word_tokenize
   
   lemmatizer = WordNetLemmatizer()
   stemmer=PorterStemmer()
@@ -475,23 +477,23 @@ def get_section_summary(path_of_file):
       li.append(li2)
     return li
 
-  def preprocess_raw_data(text):
-      text2 = re.sub(' +', ' ', text)
-      text2 = text2.strip()
-      og_sentences = text2.split('. ')
+  def get_sentences(text):
+    return sent_tokenize(text)
+
+  def preprocess_raw_data(sent_list):
+    for sent in range(len(sent_list)):
+      temp = sent_list[sent][:-1]
+      text2 = temp.lower().strip()
       special_chars = list(set(list(punctuation)) - set(['.','%','-']))
-      # special_chars = list((punctuation))
-      # special_chars.remove('.')
-      
       special_chars.append('—')
-      sentences = []
-      for i in range(len(og_sentences)):
-        sent = og_sentences[i].lower()
-        for j in special_chars:
-          sent = sent.replace(j,'')
-        if len(sent) > 10:
-          sentences.append(sent)
-      return sentences
+      
+      for j in special_chars:
+        text2 = text2.replace(j,' ')
+      text2 = re.sub(' +', ' ', text2)
+      
+      sent_list[sent] = text2
+
+    return sent_list
 
   """## Scoring"""
 
@@ -506,13 +508,14 @@ def get_section_summary(path_of_file):
     neutral_scores_list = []
     for i in range(len(tokenized_list)):
       score = classify_neutral(''.join(tokenized_list[i]))
-      neutral_scores_list.append( 0.075/len(sentence_list[i]) * score)
+      neutral_scores_list.append( 0.075/ max(1, len(sentence_list[i])) * score)
     return neutral_scores_list
 
   def neutral_sentence_score(tokenized_list, sentence_list):
     neutral_scores_list = calculate_score(tokenized_list,sentence_list)
     return neutral_scores_list
 
+  
   # TF-IDF scoring
   import math
 
@@ -533,15 +536,28 @@ def get_section_summary(path_of_file):
     for i in frequency_score:
       tf_score[i]=frequency_score[i]/total_length
 
-    # as we are considering only one document we have to take df to be 1
-    # idf=log(N/(df+1))
-    idf=math.log(1/2,2.71828)
+
+    N=len(textseg)
+
+    df_score={}
+    for i in tf_score:
+      count=0
+      for j in textseg:
+        if(i in j):
+          count+=1
+        else:
+          continue
+      df_score[i]=count
+
+    idf_score={}
+    for i in df_score:
+      idf_score[i]=math.log(N/df_score[i],2.71828)
 
     # calculating the tf-idf score
     tfIdf_score={}
     for i in tf_score:
-      tfIdf_score[i]=tf_score[i]*idf
-    
+      tfIdf_score[i]=tf_score[i]*idf_score[i]
+
 
     para=[]
     for i in textseg:
@@ -566,6 +582,8 @@ def get_section_summary(path_of_file):
   def TFIDF_score(tokenized_list):
     tfidf_scores_list = TF_IDF(tokenized_list)
     return tfidf_scores_list
+
+
 
 
   #PAGE RANK ALGORITHM
@@ -769,7 +787,31 @@ def get_section_summary(path_of_file):
       overall_Score.append(ans)
     return dict1
 
-  def get_summary(dict1):
+  # !pip install language-tool-python
+  import language_tool_python
+  tool = language_tool_python.LanguageTool('en-US') 
+
+  def get_matches(text):
+    if len(tool.check(text)) <= max(5, len(text.split()) // 10):
+        return 1
+    return 0
+
+  def get_num_count(sent):
+    total_digits = 0
+    total_letters = 0
+    
+    for s in sent.split():
+        try:
+          if isinstance(float(s), float) or isinstance(int(s), int):
+              total_digits += 1
+        except:
+          total_letters += 1
+    if(total_letters < total_digits):
+      return False
+    return True
+
+  def get_summary(dict1, get_og_sent):
+
     total=len(dict1)
     total_len = 0
     summaryLength = 6
@@ -779,29 +821,38 @@ def get_section_summary(path_of_file):
               lambda kv:(kv[1], kv[0]), reverse= True))
     dict2=[]
     for i in dict1:
+
       if(len(dict2)>= summaryLength or total_len >= max_words_allowed):
         break
 
-      x=i[0].split(" ")
+      if get_matches(i[0]) and get_num_count(i[0]):
 
-      if(len(x)<=5):
-        continue
-      else:
-        dict2.append(i)
-        total_len += len(x)
+        x=i[0].split(" ")
+
+        if(len(x)<=5):
+          continue
+        else:
+          dict2.append(i)
+          total_len += len(x)
+
         
     opd1 = (sorted(dict2, key =lambda kv:kv[1][1]))
-    summary=""
+    summary = []
     for i in opd1:
-      summary+=i[0].capitalize()+". "
-    return summary
+      temp_text = get_og_sent[i[0]].strip().capitalize()
+      temp_text = re.sub(' +', ' ', temp_text)
+      summary.append(temp_text)
+    return " ".join(summary)
+
 
   def preprocess_data(raw_text):
-    sentence_list = preprocess_raw_data(raw_text)
+    original_sentences = get_sentences(raw_text)
+    og_copy = original_sentences.copy()
+    sentence_list = preprocess_raw_data(original_sentences)
     tokenized_list = tokenize_sentence(sentence_list)
     tokenized_list = remove_stopwords(tokenized_list)
     tokenized_list = lemmatize_and_stemming(tokenized_list)
-    return [tokenized_list, sentence_list]
+    return [tokenized_list, og_copy, sentence_list]
 
   def score_sentences(raw_text, tokenized_list, sentence_list):
     neutral_score_list = neutral_sentence_score(tokenized_list, sentence_list)
@@ -815,7 +866,10 @@ def get_section_summary(path_of_file):
   def generate_summary(raw_text):
     # Step 1: Pre-processing
     tokenized_list = preprocess_data(raw_text)[0]
-    sentence_list = preprocess_data(raw_text)[1]
+    original_sentences = preprocess_data(raw_text)[1]
+    sentence_list = preprocess_data(raw_text)[2]
+
+    get_og_sent = dict(zip(sentence_list, original_sentences))
 
     # Step 2: Scoring of sentences
     scores_list = score_sentences(raw_text, tokenized_list, sentence_list)
@@ -827,10 +881,9 @@ def get_section_summary(path_of_file):
     sentences_scores = overall_score(sentence_list, normalized_scores_list)
 
     # Step 5: Sorting the dictionary and taking 40% and generating summary
-    final_summary = get_summary(sentences_scores)
+    final_summary = get_summary(sentences_scores, get_og_sent)
 
     return final_summary
-    # return get_summary(sentences_scores)
 
   
   mapForSubHeading = {
@@ -844,7 +897,7 @@ def get_section_summary(path_of_file):
         "literature survey", "literature review", "related work", "related works", "related study", "background", "state of the art"
       ],
       "METHODOLOGY" : [
-        "design and implementation", "methodology", "approach", "structure and discussion", "method", "proposed model", "proposed system", "algorithm", "materials and methods", "the proposed method", "proposed method", "experimental setup"
+        "general system architecture", "design and implementation", "methodology", "approach", "structure and discussion", "method", "proposed model", "proposed system", "algorithm", "materials and methods", "the proposed method", "proposed method", "experimental setup"
       ],
       "EXPERIMENTS & RESULTS": [
         "results", "result", "experiment",  "experiments", "experimental results", "result and discussion", "discussion", "results and discussion", "experiment and result analysis", "result and  evaluation", "results and  evaluation", "experimental verification", "comparison and discussion", "limitations and discussion", "experiments and results", "implement and experimental results", "experimental evalution", "experimental verification", "experimental results and  evalution"
