@@ -70,8 +70,10 @@ If you'd like to request a new function, feel free to do so by opening an issue 
 ## Team
 
 [![Mayuresh Kadam](https://media-exp1.licdn.com/dms/image/C4E03AQEZexR9A4BS1w/profile-displayphoto-shrink_200_200/0/1645274285869?e=2147483647&v=beta&t=1n0ULlwPFTqCQGKr0Jol0T4as_K7YwJo0cNVNfBrj84)](https://github.com/kadammayuresh008)  | [![Mahek Baru](https://media-exp1.licdn.com/dms/image/C5603AQHvY8rkXdcWrg/profile-displayphoto-shrink_200_200/0/1632561538072?e=1657756800&v=beta&t=_jnDcE2o1y-cG7MKU9VoEEAoWFQMs69dOk9J22AzVrA)](https://github.com/Mahekb) | [![Jainam Mehta](https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSMUh_yuQ9ZxcUOMNjXbtKiBgcKB3Fzv5Dwbg&usqp=CAU)](https://github.com/Jainam321) | [![Sourabh Bujawade](https://media-exp1.licdn.com/dms/image/C4E03AQF36pqUOxyDqA/profile-displayphoto-shrink_200_200/0/1641793232496?e=1658966400&v=beta&t=6CT-HvaSHffLixuci7HSvgFvyuGcjkSt_vqXSIHsci0)](https://github.com/sourabhb77)
+
 ---|---
-[Mayuresh Kadam](https://github.com/kadammayuresh008) |[Mahek Baru](https://github.com/Mahekb) | [Jainam Mehta](https://github.com/Jainam321) | [Sourabh Bujawade](https://github.com/sourabhb77)
+
+[Mayuresh Kadam](https://github.com/kadammayuresh008) | [Mahek Baru](https://github.com/Mahekb) | [Jainam Mehta](https://github.com/Jainam321) | [Sourabh Bujawade](https://github.com/sourabhb77)
 
 ## [License]()
 
